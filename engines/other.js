@@ -1482,6 +1482,220 @@ window.uwuEngineOther = (() => {
         };
     }
 
+    // ── Grade ─────────────────────────────────────────────────────────────────
+    function renderGrade(container) {
+        container.innerHTML = `
+      <p style="font-size:14px;opacity:0.8;margin-bottom:12px">Enter assignments with weight (%) and score (%).</p>
+      <div id="grade-rows">${[...Array(6)].map((_,i)=>`<div style="display:flex;gap:8px;margin-bottom:6px">
+        <input type="text" id="grade-n${i}" placeholder="Assignment ${i+1}" style="flex:2;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <input type="number" id="grade-w${i}" placeholder="Weight %" value="${i<3?'30':''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <input type="number" id="grade-s${i}" placeholder="Score %" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+      </div>`).join('')}</div>
+      ${btn('Calculate Grade')}<div id="grade-result"></div>`;
+        window._calcRun = () => {
+            let totalWeight = 0, weighted = 0;
+            for (let i = 0; i < 6; i++) {
+                const w = parseFloat(document.getElementById(`grade-w${i}`).value);
+                const s = parseFloat(document.getElementById(`grade-s${i}`).value);
+                if (!isNaN(w) && !isNaN(s) && w > 0) { weighted += w * s / 100; totalWeight += w; }
+            }
+            if (!totalWeight) { document.getElementById('grade-result').innerHTML = err('Enter at least one assignment.'); return; }
+            const final = weighted / totalWeight * 100;
+            const letter = final >= 93 ? 'A' : final >= 90 ? 'A-' : final >= 87 ? 'B+' : final >= 83 ? 'B' : final >= 80 ? 'B-' : final >= 77 ? 'C+' : final >= 73 ? 'C' : final >= 70 ? 'C-' : final >= 67 ? 'D+' : final >= 60 ? 'D' : 'F';
+            document.getElementById('grade-result').innerHTML = result(row('Weighted average', `${fmt(final,2)}%`) + row('Letter grade', letter) + row('Weight accounted', `${fmt(totalWeight,1)}%`));
+            uwuHistory.add('grade-calculator', { grade: fmt(final, 2) });
+        };
+        window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('grade-result').innerHTML = ''; };
+    }
+
+    // ── Height ───────────────────────────────────────────────────────────────
+    function renderHeight(container) {
+        container.innerHTML = `
+      ${select('ht-method','Method',[{v:'parent',l:'Mid-parent (Khamis-Roche)'},{v:'convert',l:'Height conversion'}])}
+      <div id="ht-parent-wrap">
+        ${select('ht-sex','Child\'s sex',[{v:'male',l:'Male'},{v:'female',l:'Female'}])}
+        ${field('ht-father','Father\'s height (cm)','number','175')}
+        ${field('ht-mother','Mother\'s height (cm)','number','163')}
+      </div>
+      <div id="ht-conv-wrap" style="display:none">
+        ${field('ht-val','Height value','number','170')}
+        ${select('ht-from','From',[{v:'cm',l:'Centimeters'},{v:'in',l:'Inches'},{v:'ft',l:'Feet'}])}
+      </div>
+      ${btn('Calculate')}<div id="ht-result"></div>`;
+        document.getElementById('ht-method').addEventListener('change', e => {
+            document.getElementById('ht-parent-wrap').style.display = e.target.value === 'parent' ? '' : 'none';
+            document.getElementById('ht-conv-wrap').style.display = e.target.value === 'convert' ? '' : 'none';
+        });
+        window._calcRun = () => {
+            const method = document.getElementById('ht-method').value;
+            if (method === 'parent') {
+                const father = +document.getElementById('ht-father').value, mother = +document.getElementById('ht-mother').value;
+                const sex = document.getElementById('ht-sex').value;
+                const predicted = sex === 'male' ? (father + mother + 13) / 2 : (father + mother - 13) / 2;
+                const inches = predicted / 2.54;
+                const ft = Math.floor(inches / 12), inR = inches % 12;
+                document.getElementById('ht-result').innerHTML = result(row('Predicted adult height', `${fmt(predicted,1)} cm`) + row('In feet/inches', `${ft}'${fmt(inR,1)}"`) + row('Range (±)', `${fmt(predicted-8.5,1)} – ${fmt(predicted+8.5,1)} cm`));
+            } else {
+                const val = +document.getElementById('ht-val').value, from = document.getElementById('ht-from').value;
+                let cm;
+                if (from === 'cm') cm = val; else if (from === 'in') cm = val * 2.54; else cm = val * 30.48;
+                const inches = cm / 2.54, ft = Math.floor(inches / 12), inR = inches % 12;
+                document.getElementById('ht-result').innerHTML = result(row('Centimeters', fmt(cm, 2)) + row('Inches', fmt(inches, 2)) + row('Feet & inches', `${ft}'${fmt(inR,1)}"`));
+            }
+            uwuHistory.add('height-calculator', {});
+        };
+        window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('ht-result').innerHTML = ''; };
+    }
+
+    // ── Bra Size ──────────────────────────────────────────────────────────────
+    function renderBraSize(container) {
+        container.innerHTML = `
+      ${select('bra-unit','Unit',[{v:'in',l:'Inches'},{v:'cm',l:'Centimeters'}])}
+      ${field('bra-band','Band measurement (under bust)','number','32')}
+      ${field('bra-bust','Bust measurement (fullest point)','number','36')}
+      ${btn('Calculate')}<div id="bra-result"></div>`;
+        window._calcRun = () => {
+            const unit = document.getElementById('bra-unit').value;
+            let band = +document.getElementById('bra-band').value, bust = +document.getElementById('bra-bust').value;
+            if (unit === 'cm') { band = band / 2.54; bust = bust / 2.54; }
+            const bandSize = Math.round(band / 2) * 2 + (band % 2 >= 1 ? 1 : 0);
+            const adjBand = bandSize % 2 === 0 ? bandSize : bandSize + 1;
+            const diff = Math.round(bust - adjBand);
+            const cups = ['AA','A','B','C','D','DD','DDD/F','G','H','I','J'];
+            const cupSize = diff >= 0 && diff < cups.length ? cups[diff] : diff < 0 ? 'AA' : cups[cups.length - 1] + '+';
+            document.getElementById('bra-result').innerHTML = result(row('Band size', adjBand) + row('Cup size', cupSize) + row('Bra size', `${adjBand}${cupSize}`) + row('Difference', `${diff} inches`));
+            uwuHistory.add('bra-size-calculator', { size: `${adjBand}${cupSize}` });
+        };
+        window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('bra-result').innerHTML = ''; };
+    }
+
+    // ── Square Footage ────────────────────────────────────────────────────────
+    function renderSquareFootage(container) {
+        container.innerHTML = `
+      ${select('sqft-shape','Shape',[{v:'rect',l:'Rectangle'},{v:'circle',l:'Circle'},{v:'triangle',l:'Triangle'}])}
+      <div id="sqft-rect">${field('sqft-l','Length (ft)','number','20')}${field('sqft-w','Width (ft)','number','15')}</div>
+      <div id="sqft-circle" style="display:none">${field('sqft-r','Radius (ft)','number','10')}</div>
+      <div id="sqft-triangle" style="display:none">${field('sqft-b','Base (ft)','number','20')}${field('sqft-h','Height (ft)','number','12')}</div>
+      ${field('sqft-price','Price per sq ft ($, optional)','number','')}
+      ${btn()}<div id="sqft-result"></div>`;
+        document.getElementById('sqft-shape').addEventListener('change', e => {
+            document.getElementById('sqft-rect').style.display = e.target.value === 'rect' ? '' : 'none';
+            document.getElementById('sqft-circle').style.display = e.target.value === 'circle' ? '' : 'none';
+            document.getElementById('sqft-triangle').style.display = e.target.value === 'triangle' ? '' : 'none';
+        });
+        window._calcRun = () => {
+            const shape = document.getElementById('sqft-shape').value;
+            let sqft;
+            if (shape === 'rect') sqft = +document.getElementById('sqft-l').value * +document.getElementById('sqft-w').value;
+            else if (shape === 'circle') { const r = +document.getElementById('sqft-r').value; sqft = Math.PI * r * r; }
+            else sqft = 0.5 * +document.getElementById('sqft-b').value * +document.getElementById('sqft-h').value;
+            const price = +document.getElementById('sqft-price').value || 0;
+            document.getElementById('sqft-result').innerHTML = result(row('Area', `${fmt(sqft,2)} sq ft`) + row('Square meters', fmt(sqft * 0.092903, 2)) + row('Acres', fmt(sqft / 43560, 4)) + (price ? row('Total cost', `$${fmt(sqft * price, 2)}`) : ''));
+            uwuHistory.add('square-footage-calculator', { sqft: fmt(sqft, 2) });
+        };
+        window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('sqft-result').innerHTML = ''; };
+    }
+
+    // ── Density ───────────────────────────────────────────────────────────────
+    function renderDensity(container) {
+        container.innerHTML = `${select('den-solve','Solve for',[{v:'density',l:'Density (ρ = m / V)'},{v:'mass',l:'Mass (m = ρ × V)'},{v:'volume',l:'Volume (V = m / ρ)'}])}${field('den-m','Mass (kg)','number','500')}${field('den-rho','Density (kg/m³)','number','1000')}${field('den-v','Volume (m³)','number','0.5')}${btn()}<div id="den-result"></div>`;
+        window._calcRun = () => {
+            const solve = document.getElementById('den-solve').value;
+            const m = +document.getElementById('den-m').value, rho = +document.getElementById('den-rho').value, v = +document.getElementById('den-v').value;
+            let res, label;
+            if (solve === 'density') { res = m / v; label = 'Density (kg/m³)'; }
+            else if (solve === 'mass') { res = rho * v; label = 'Mass (kg)'; }
+            else { res = m / rho; label = 'Volume (m³)'; }
+            document.getElementById('den-result').innerHTML = result(row(label, fmt(res, 6)));
+            uwuHistory.add('density-calculator', { result: fmt(res, 6) });
+        };
+        window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('den-result').innerHTML = ''; };
+    }
+
+    // ── Golf Handicap ─────────────────────────────────────────────────────────
+    function renderGolfHandicap(container) {
+        container.innerHTML = `
+      <p style="font-size:14px;opacity:0.8;margin-bottom:12px">Enter up to 8 recent rounds (score, course rating, slope).</p>
+      <div id="golf-rows">${[...Array(8)].map((_,i)=>`<div style="display:flex;gap:8px;margin-bottom:6px">
+        <input type="number" id="golf-s${i}" placeholder="Score" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <input type="number" id="golf-r${i}" placeholder="Rating" value="${i<3?'72':''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <input type="number" id="golf-sl${i}" placeholder="Slope" value="${i<3?'113':''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+      </div>`).join('')}</div>
+      ${btn('Calculate Handicap')}<div id="golf-result"></div>`;
+        window._calcRun = () => {
+            const diffs = [];
+            for (let i = 0; i < 8; i++) {
+                const s = parseFloat(document.getElementById(`golf-s${i}`).value);
+                const r = parseFloat(document.getElementById(`golf-r${i}`).value);
+                const sl = parseFloat(document.getElementById(`golf-sl${i}`).value);
+                if (!isNaN(s) && !isNaN(r) && !isNaN(sl) && sl > 0) diffs.push((s - r) * 113 / sl);
+            }
+            if (diffs.length < 3) { document.getElementById('golf-result').innerHTML = err('Enter at least 3 rounds.'); return; }
+            diffs.sort((a, b) => a - b);
+            const useCount = Math.max(1, Math.floor(diffs.length / 2));
+            const best = diffs.slice(0, useCount);
+            const avg = best.reduce((a, b) => a + b, 0) / best.length;
+            const handicap = avg * 0.96;
+            document.getElementById('golf-result').innerHTML = result(row('Handicap Index', fmt(handicap, 1)) + row('Best differentials used', useCount) + row('Rounds entered', diffs.length));
+            uwuHistory.add('golf-handicap-calculator', { handicap: fmt(handicap, 1) });
+        };
+        window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('golf-result').innerHTML = ''; };
+    }
+
+    // ── Sleep ─────────────────────────────────────────────────────────────────
+    function renderSleep(container) {
+        container.innerHTML = `
+      ${select('sleep-mode','I want to...',[{v:'wake',l:'Know when to wake up (I\'m going to sleep now)'},{v:'sleep',l:'Know when to go to sleep (I need to wake at...)'},{v:'custom',l:'Custom bedtime → wake times'}])}
+      <div id="sleep-time-wrap" style="display:none">${field('sleep-time','Wake-up time','time','07:00')}</div>
+      <div id="sleep-bed-wrap" style="display:none">${field('sleep-bed','Bedtime','time','23:00')}</div>
+      ${btn('Calculate')}<div id="sleep-result"></div>`;
+        const modeEl = document.getElementById('sleep-mode');
+        function toggleFields() {
+            document.getElementById('sleep-time-wrap').style.display = modeEl.value === 'sleep' ? '' : 'none';
+            document.getElementById('sleep-bed-wrap').style.display = modeEl.value === 'custom' ? '' : 'none';
+        }
+        modeEl.addEventListener('change', toggleFields);
+        toggleFields();
+        window._calcRun = () => {
+            const mode = modeEl.value;
+            const cycleMin = 90, fallAsleep = 15;
+            let html = '';
+            if (mode === 'wake') {
+                const now = new Date();
+                now.setMinutes(now.getMinutes() + fallAsleep);
+                html = '<p style="margin-bottom:8px">You should wake up at one of these times:</p>';
+                for (let c = 6; c >= 3; c--) {
+                    const wake = new Date(now.getTime() + c * cycleMin * 60000);
+                    const label = wake.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                    html += row(`${c} cycles (${c * 1.5}h)`, label);
+                }
+            } else if (mode === 'sleep') {
+                const [wh, wm] = document.getElementById('sleep-time').value.split(':').map(Number);
+                const wake = new Date(); wake.setHours(wh, wm, 0, 0);
+                html = '<p style="margin-bottom:8px">You should go to sleep at one of these times:</p>';
+                for (let c = 6; c >= 3; c--) {
+                    const bed = new Date(wake.getTime() - (c * cycleMin + fallAsleep) * 60000);
+                    const label = bed.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                    html += row(`${c} cycles (${c * 1.5}h)`, label);
+                }
+            } else {
+                const [bh, bm] = document.getElementById('sleep-bed').value.split(':').map(Number);
+                const bed = new Date(); bed.setHours(bh, bm, 0, 0);
+                bed.setMinutes(bed.getMinutes() + fallAsleep);
+                html = '<p style="margin-bottom:8px">Wake-up times from that bedtime:</p>';
+                for (let c = 3; c <= 6; c++) {
+                    const wake = new Date(bed.getTime() + c * cycleMin * 60000);
+                    const label = wake.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                    html += row(`${c} cycles (${c * 1.5}h)`, label);
+                }
+            }
+            html += `<p style="margin-top:10px;font-size:13px;opacity:0.7">Based on ${cycleMin}-min sleep cycles + ${fallAsleep} min to fall asleep.</p>`;
+            document.getElementById('sleep-result').innerHTML = result(html);
+            uwuHistory.add('sleep-calculator', {});
+        };
+        window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('sleep-result').innerHTML = ''; };
+    }
+
     // ── Alias map ─────────────────────────────────────────────────────────────
 
     const ALIAS = {
@@ -1534,6 +1748,13 @@ window.uwuEngineOther = (() => {
         'base64-encode-decode': renderBase64,
         'url-encode-decode': renderURLEncode,
         'gdp-calculator': renderGDP,
+        'grade-calculator': renderGrade,
+        'height-calculator': renderHeight,
+        'bra-size-calculator': renderBraSize,
+        'square-footage-calculator': renderSquareFootage,
+        'density-calculator': renderDensity,
+        'golf-handicap-calculator': renderGolfHandicap,
+        'sleep-calculator': renderSleep,
     };
 
     return {
