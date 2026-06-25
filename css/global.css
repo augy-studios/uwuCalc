@@ -983,9 +983,15 @@ svg {
     transition: opacity var(--transition);
     background: none;
     border: none;
-    color: var(--brand-darker);
+    color: var(--text-muted);
     cursor: pointer;
     padding: 4px;
+}
+
+.calc-card-fav svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
 }
 
 .calc-card:hover .calc-card-fav {
@@ -995,6 +1001,11 @@ svg {
 .calc-card-fav.starred {
     opacity: 1;
     color: #f59e0b;
+}
+
+.calc-card-fav.starred svg {
+    fill: currentColor;
+    stroke: none;
 }
 
 /* ============================================

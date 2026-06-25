@@ -50,10 +50,10 @@
             });
         });
 
-        // Card-level fav buttons
+        // Card-level fav buttons (skip if already bound by home.js)
         document.querySelectorAll('.calc-card-fav').forEach(btn => {
             const id = btn.dataset.calcId;
-            if (!id) return;
+            if (!id || btn.dataset.bound) return;
             btn.classList.toggle('starred', isFavourite(id));
             btn.addEventListener('click', (e) => {
                 e.preventDefault();

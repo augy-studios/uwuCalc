@@ -94,9 +94,12 @@ function buildCalcGrid(cat) {
             const id = btn.dataset.calcId;
             uwuFavourites.toggle(id);
             btn.classList.toggle('starred', uwuFavourites.is(id));
+            uwuFavourites.update(id);
             if (currentCat === 'favourites') buildCalcGrid('favourites');
         });
     });
+    // Mark as already wired so initFavButtons doesn't double-bind
+    grid.querySelectorAll('.calc-card-fav').forEach(btn => btn.dataset.bound = '1');
 }
 
 function initCategoryTabs() {
