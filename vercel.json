@@ -4,7 +4,7 @@
     "cleanUrls": true,
     "regions": ["sin1"],
     "rewrites": [{
-        "source": "/",
-        "destination": "/"
+        "source": "/calc/:slug",
+        "destination": "/api/calc/:slug"
     }]
 }

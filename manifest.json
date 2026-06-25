@@ -1,7 +1,7 @@
 {
-    "name": "Template by UwU Apps",
-    "short_name": "UwU Template",
-    "description": "A simple template app; view live template at a glance!",
+    "name": "Calculator by UwU Apps",
+    "short_name": "uwuCalc",
+    "description": "Explore a collection of over 200+ calculators!",
     "icons": [{
             "src": "templateicon1-192.png",
             "type": "image/png",
@@ -26,13 +26,29 @@
             "form_factor": "wide"
         }
     ],
+    "shortcuts": [{
+            "name": "Basic Calculator",
+            "url": "/",
+            "description": "Open basic calculator"
+        },
+        {
+            "name": "Scientific Calculator",
+            "url": "/calc/scientific-calculator",
+            "description": "Open scientific calculator"
+        },
+        {
+            "name": "BMI Calculator",
+            "url": "/calc/bmi-calculator",
+            "description": "Open BMI calculator"
+        }
+    ],
     "start_url": "/",
     "theme_color": "#cfc",
     "background_color": "#cfc",
     "display": "standalone",
     "display_override": ["fullscreen", "minimal-ui", "window-controls-overlay"],
     "orientation": "any",
-    "id": "template",
+    "id": "uwucalc",
     "dir": "ltr",
     "scope": "/",
     "lang": "en",
