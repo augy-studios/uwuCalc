@@ -3,12 +3,12 @@
     "short_name": "uwuCalc",
     "description": "Explore a collection of over 200+ calculators!",
     "icons": [{
-            "src": "templateicon1-192.png",
+            "src": "UWC-192.png",
             "type": "image/png",
             "sizes": "192x192"
         },
         {
-            "src": "templateicon1-512.png",
+            "src": "UWC-512.png",
             "type": "image/png",
             "sizes": "512x512"
         }
@@ -26,11 +26,7 @@
             "form_factor": "wide"
         }
     ],
-    "shortcuts": [{
-            "name": "Basic Calculator",
-            "url": "/",
-            "description": "Open basic calculator"
-        },
+    "shortcuts": [
         {
             "name": "Scientific Calculator",
             "url": "/scientific",
@@ -40,6 +36,11 @@
             "name": "BMI Calculator",
             "url": "/bmi",
             "description": "Open BMI calculator"
+        },
+        {
+            "name": "GST Calculator",
+            "url": "/gst",
+            "description": "Open GST calculator"
         }
     ],
     "start_url": "/",
