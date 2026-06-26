@@ -34,6 +34,8 @@
         const isFav = isFavourite(calcId);
         document.querySelectorAll('.fav-btn, .calc-card-fav[data-calc-id="' + calcId + '"], .sidebar-fav-star[data-calc-id="' + calcId + '"]').forEach(btn => {
             btn.classList.toggle('starred', isFav);
+            const svg = btn.querySelector('svg');
+            if (svg) svg.setAttribute('fill', isFav ? 'currentColor' : 'none');
             if (btn.classList.contains('fav-btn')) {
                 const textEl = btn.querySelector('.fav-btn-text');
                 if (textEl) textEl.textContent = isFav ? 'Unfavourite' : 'Favourite';
@@ -66,12 +68,16 @@
         // Sidebar fav stars
         document.querySelectorAll('.sidebar-fav-star').forEach(btn => {
             const id = btn.dataset.calcId;
-            if (!id) return;
+            if (!id || btn.dataset.bound) return;
+            btn.dataset.bound = '1';
             btn.classList.toggle('starred', isFavourite(id));
             btn.addEventListener('click', (e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 toggleFavourite(id);
                 btn.classList.toggle('starred', isFavourite(id));
+                const svg = btn.querySelector('svg');
+                if (svg) svg.setAttribute('fill', isFavourite(id) ? 'currentColor' : 'none');
             });
         });
     }

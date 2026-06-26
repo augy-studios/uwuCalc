@@ -1,4 +1,4 @@
-const CACHE_NAME = 'uwucalc-v10';
+const CACHE_NAME = 'uwucalc-v11';
 const STATIC_ASSETS = [
   '/',
   '/css/global.css',

@@ -18,8 +18,10 @@
         if (!page) return;
         page.innerHTML = `
       <div style="text-align:center;padding:60px 20px;">
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="margin:0 auto 16px;display:block;">
-          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        <svg width="64" height="64" viewBox="0 0 24 24" style="margin:0 auto 16px;display:block;">
+          <circle cx="12" cy="12" r="10" fill="#e0e0e0" stroke="none"/>
+          <line x1="12" y1="7" x2="12" y2="13" stroke="#e53e3e" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="12" cy="16.5" r="1.2" fill="#e53e3e"/>
         </svg>
         <h1 style="font-size:1.5rem;margin-bottom:8px;color:var(--text-primary);">Calculator Not Found</h1>
         <p style="color:var(--text-muted);margin-bottom:24px;">We couldn't find a calculator for <strong>${slug}</strong>.</p>
@@ -124,6 +126,16 @@
         const calc = CALC_BY_SLUG[slug];
 
         if (typeof buildSidebar === 'function') buildSidebar();
+
+        // Re-attach sidebar collapse handlers (buildSidebar replaced innerHTML)
+        document.querySelectorAll('.sidebar-section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.closest('.sidebar-section').classList.toggle('collapsed');
+            });
+        });
+
+        // Re-init sidebar fav stars
+        if (window.uwuFavourites) uwuFavourites.init(null);
 
         if (!calc) {
             renderNotFound(slug);

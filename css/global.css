@@ -699,9 +699,11 @@ svg {
 .sidebar-fav-star {
     margin-left: auto;
     opacity: 0;
-    transition: opacity var(--transition);
+    transition: opacity var(--transition), color var(--transition);
     cursor: pointer;
-    color: var(--brand-darker);
+    color: var(--text-muted);
+    background: none;
+    padding: 2px;
 }
 
 .sidebar-item:hover .sidebar-fav-star {
@@ -792,7 +794,7 @@ svg {
     unicode-bidi: plaintext;
 }
 
-.calc-result {
+.calc-display .calc-result {
     font-size: 2.4rem;
     color: var(--text-primary);
     overflow: hidden;
@@ -1245,6 +1247,9 @@ svg {
     font-size: 1rem;
     color: var(--text-primary);
     font-weight: 700;
+    overflow-x: auto;
+    max-width: 60%;
+    text-align: right;
 }
 
 .result-primary .result-value {
@@ -1638,6 +1643,66 @@ svg {
 }
 
 /* ============================================
+   FOOTER
+   ============================================ */
+.site-footer {
+    text-align: center;
+    padding: 24px 16px;
+    margin-left: var(--sidebar-width);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.footer-heart {
+    vertical-align: middle;
+}
+
+/* ============================================
+   CHECKBOX STYLING
+   ============================================ */
+.calc-field input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--input-border);
+    border-radius: 4px;
+    background: var(--input-bg);
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 6px;
+    position: relative;
+    flex-shrink: 0;
+    transition: background var(--transition), border-color var(--transition);
+}
+
+.calc-field input[type="checkbox"]:checked {
+    background: var(--brand-darker);
+    border-color: var(--brand-darker);
+}
+
+.calc-field input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.calc-field input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--brand-darker);
+    outline-offset: 2px;
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 1024px) {
@@ -1672,6 +1737,10 @@ svg {
     .main-content {
         margin-left: 0;
         padding: 20px 16px;
+    }
+
+    .site-footer {
+        margin-left: 0;
     }
 
     .hamburger-btn {
@@ -1710,7 +1779,7 @@ svg {
     }
 
     .calc-btns.sci-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
     }
 }
 

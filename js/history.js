@@ -12,6 +12,8 @@
         }
     }
 
+    let _currentCalcId = null;
+
     function addEntry(calcId, inputs, result) {
         try {
             const all = JSON.parse(localStorage.getItem(KEY) || '{}');
@@ -23,6 +25,11 @@
             });
             if (all[calcId].length > MAX_ENTRIES) all[calcId] = all[calcId].slice(0, MAX_ENTRIES);
             localStorage.setItem(KEY, JSON.stringify(all));
+            // Auto-refresh panel if open
+            const panel = document.querySelector('.history-panel');
+            if (panel && panel.classList.contains('open')) {
+                renderHistoryPanel(_currentCalcId || calcId);
+            }
         } catch (e) {
             console.warn('History save failed', e);
         }
@@ -42,9 +49,7 @@
         }
     }
 
-    function renderHistoryPanel(calcId, containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
+    function renderHistoryPanel(calcId) {
         const entries = getHistory(calcId);
         const panel = document.querySelector('.history-panel');
         if (!panel) return;
@@ -90,6 +95,7 @@
     }
 
     function initHistoryPanel(calcId) {
+        _currentCalcId = calcId;
         const toggleBtn = document.querySelector('.history-btn-header');
         const panel = document.querySelector('.history-panel');
         const clearBtn = panel?.querySelector('.history-clear-btn');

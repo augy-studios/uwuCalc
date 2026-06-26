@@ -30,6 +30,32 @@ function buildSidebar() {
       </div>
     </div>
   `;
+    // Favourites section
+    const favIds = window.uwuFavourites ? uwuFavourites.get() : [];
+    const favCalcs = CALC_REGISTRY.filter(c => favIds.includes(c.id)).sort((a,b) => a.name.localeCompare(b.name));
+    if (favCalcs.length) {
+        html += `
+      <div class="sidebar-section${favCalcs.some(c => currentPath === '/' + c.slug) ? '' : ' collapsed'}">
+        <div class="sidebar-section-header">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="color:#f59e0b"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Favourites
+          <svg class="section-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="sidebar-section-items">
+          ${favCalcs.map(c => `
+            <a href="/${c.slug}" class="sidebar-item${currentPath === '/' + c.slug ? ' active' : ''}">
+              <span style="width:14px;height:14px;display:inline-block;"></span>
+              ${c.name}
+              <button class="sidebar-fav-star starred" data-calc-id="${c.id}" aria-label="Toggle favourite">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </button>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    }
+
     CATEGORIES.forEach(cat => {
         const calcs = getCalcsByCategory(cat);
         const hasActive = calcs.some(c => currentPath === `/${c.slug}`);
@@ -41,15 +67,17 @@ function buildSidebar() {
           <svg class="section-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="sidebar-section-items">
-          ${calcs.map(c => `
+          ${calcs.sort((a,b) => a.name.localeCompare(b.name)).map(c => {
+            const starred = window.uwuFavourites && uwuFavourites.is(c.id);
+            return `
             <a href="/${c.slug}" class="sidebar-item${currentPath === '/' + c.slug ? ' active' : ''}">
               <span style="width:14px;height:14px;display:inline-block;"></span>
               ${c.name}
-              <button class="sidebar-fav-star" data-calc-id="${c.id}" aria-label="Toggle favourite">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <button class="sidebar-fav-star${starred ? ' starred' : ''}" data-calc-id="${c.id}" aria-label="Toggle favourite">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="${starred ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               </button>
             </a>
-          `).join('')}
+          `}).join('')}
         </div>
       </div>
     `;
@@ -67,12 +95,12 @@ function buildCalcGrid(cat) {
 
     let calcs;
     if (cat === 'all') {
-        calcs = CALC_REGISTRY;
+        calcs = [...CALC_REGISTRY].sort((a, b) => a.name.localeCompare(b.name));
     } else if (cat === 'favourites') {
         const favs = uwuFavourites.get();
-        calcs = CALC_REGISTRY.filter(c => favs.includes(c.id));
+        calcs = CALC_REGISTRY.filter(c => favs.includes(c.id)).sort((a, b) => a.name.localeCompare(b.name));
     } else {
-        calcs = getCalcsByCategory(cat);
+        calcs = getCalcsByCategory(cat).sort((a, b) => a.name.localeCompare(b.name));
     }
 
     if (!calcs.length) {
@@ -125,8 +153,28 @@ function initCategoryTabs() {
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
     buildSidebar();
-    buildCalcGrid('all');
+
+    // Handle /?cat= parameter
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('cat');
+    const initialCat = catParam && [...CATEGORIES, 'favourites'].includes(catParam) ? catParam : 'all';
+
+    buildCalcGrid(initialCat);
     initCategoryTabs();
+
+    // Activate the correct tab if cat param present
+    if (catParam) {
+        const tabs = document.querySelectorAll('#categoryTabs .cat-tab');
+        tabs.forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+            if (t.dataset.cat === initialCat) {
+                t.classList.add('active');
+                t.setAttribute('aria-selected', 'true');
+            }
+        });
+    }
+
     if (window.uwuFavourites) uwuFavourites.init(null);
 
     // Count

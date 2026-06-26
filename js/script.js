@@ -67,10 +67,41 @@ function registerSW() {
     }
 }
 
+// ============ ENTER KEY → CALCULATE ============
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.matches('.calc-field input, .calc-field select, .calc-engine-container input, .calc-engine-container select, .form-input, .form-select')) {
+        e.preventDefault();
+        if (typeof window._calcRun === 'function') {
+            window._calcRun();
+        } else {
+            const calcBtn = document.querySelector('.calc-engine-container .btn-primary, .calc-engine-container .btn-calc');
+            if (calcBtn) calcBtn.click();
+        }
+    }
+    // Ctrl+K to focus search bar
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) searchInput.focus();
+    }
+});
+
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
     registerSW();
     if (window.uwuTheme) uwuTheme.init();
     if (window.uwuSearch) uwuSearch.init();
     initSidebar();
+
+    // ?q= URL parameter search activation
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q');
+    if (q) {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.value = q;
+            searchInput.dispatchEvent(new Event('input'));
+            searchInput.focus();
+        }
+    }
 });
