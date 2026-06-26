@@ -1,4 +1,4 @@
-const CACHE_NAME = 'uwucalc-v7';
+const CACHE_NAME = 'uwucalc-v8';
 const STATIC_ASSETS = [
   '/',
   '/css/global.css',
@@ -8,6 +8,9 @@ const STATIC_ASSETS = [
   '/js/history.js',
   '/js/favourites.js',
   '/manifest.json',
+  '/UWC-main.png',
+  '/UWC-192.png',
+  '/UWC-512.png',
   // Calculator pages
   '/mortgage',
   '/loan',
