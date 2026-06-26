@@ -1641,6 +1641,80 @@ const CALC_REGISTRY = [
         description: 'Find the day of the week for any date.',
         engine: 'other'
     },
+
+    // ============ SINGAPORE ============
+    {
+        id: 'sg-income-tax',
+        name: 'SG Income Tax Calculator',
+        slug: 'sg-income-tax-calculator',
+        category: 'Singapore',
+        description: 'Calculate Singapore income tax using IRAS brackets.',
+        engine: 'sg'
+    },
+    {
+        id: 'cpf',
+        name: 'CPF Calculator',
+        slug: 'cpf-calculator',
+        category: 'Singapore',
+        description: 'Calculate CPF contributions by age group (OA/SA/MA split).',
+        engine: 'sg'
+    },
+    {
+        id: 'srs',
+        name: 'SRS Calculator',
+        slug: 'srs-calculator',
+        category: 'Singapore',
+        description: 'Calculate Supplementary Retirement Scheme tax savings.',
+        engine: 'sg'
+    },
+    {
+        id: 'gst',
+        name: 'GST Calculator',
+        slug: 'gst-calculator',
+        category: 'Singapore',
+        description: 'Add or extract Singapore GST from a price.',
+        engine: 'sg'
+    },
+    {
+        id: 'sg-take-home-pay',
+        name: 'SG Take-Home Pay Calculator',
+        slug: 'sg-take-home-pay-calculator',
+        category: 'Singapore',
+        description: 'Calculate take-home pay with CPF and IRAS tax.',
+        engine: 'sg'
+    },
+    {
+        id: 'hdb-loan',
+        name: 'HDB Loan Calculator',
+        slug: 'hdb-loan-calculator',
+        category: 'Singapore',
+        description: 'Calculate HDB concessionary or bank loan repayments.',
+        engine: 'sg'
+    },
+    {
+        id: 'cpf-life',
+        name: 'CPF Life Calculator',
+        slug: 'cpf-life-calculator',
+        category: 'Singapore',
+        description: 'Estimate CPF Life monthly retirement payouts.',
+        engine: 'sg'
+    },
+    {
+        id: 'bsd',
+        name: 'BSD / ABSD Calculator',
+        slug: 'bsd-calculator',
+        category: 'Singapore',
+        description: 'Calculate Buyer\'s Stamp Duty and Additional BSD.',
+        engine: 'sg'
+    },
+    {
+        id: 'ippt',
+        name: 'IPPT Calculator',
+        slug: 'ippt-calculator',
+        category: 'Singapore',
+        description: 'Score your IPPT (NS fitness test) and check award tier.',
+        engine: 'sg'
+    },
 ];
 
 // Build lookup maps
@@ -1651,7 +1725,7 @@ CALC_REGISTRY.forEach(c => {
     CALC_BY_ID[c.id] = c;
 });
 
-const CATEGORIES = ['Financial', 'Fitness & Health', 'Math', 'Other', 'US-Centric'];
+const CATEGORIES = ['Financial', 'Fitness & Health', 'Math', 'Other', 'US-Centric', 'Singapore'];
 
 function getCalcsByCategory(cat) {
     return CALC_REGISTRY.filter(c => c.category === cat);

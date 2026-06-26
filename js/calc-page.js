@@ -109,6 +109,7 @@
             math: window.uwuEngineMath,
             other: window.uwuEngineOther,
             usa: window.uwuEngineUSA,
+            sg: window.uwuEngineSG,
         };
         const engine = engineMap[calc.engine];
         if (!engine || typeof engine.render !== 'function') {

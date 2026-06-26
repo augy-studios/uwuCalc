@@ -1,4 +1,4 @@
-const CACHE_NAME = 'uwucalc-v4';
+const CACHE_NAME = 'uwucalc-v5';
 const STATIC_ASSETS = [
   '/',
   '/css/global.css',
@@ -212,7 +212,17 @@ const STATIC_ASSETS = [
   '/calc/url-encode-decode',
   '/calc/time-duration-calculator',
   '/calc/day-counter',
-  '/calc/day-of-the-week-calculator'
+  '/calc/day-of-the-week-calculator',
+  // Singapore
+  '/calc/sg-income-tax-calculator',
+  '/calc/cpf-calculator',
+  '/calc/srs-calculator',
+  '/calc/gst-calculator',
+  '/calc/sg-take-home-pay-calculator',
+  '/calc/hdb-loan-calculator',
+  '/calc/cpf-life-calculator',
+  '/calc/bsd-calculator',
+  '/calc/ippt-calculator'
 ];
 
 self.addEventListener('install', (event) => {
