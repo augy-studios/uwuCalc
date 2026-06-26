@@ -482,7 +482,7 @@ svg {
 
 .header-search input {
     width: 100%;
-    padding: 10px 16px 10px 44px;
+    padding: 10px 72px 10px 44px;
     background: var(--input-bg);
     border: 1px solid var(--input-border);
     border-radius: var(--radius-xl);
@@ -508,6 +508,27 @@ svg {
     transform: translateY(-50%);
     color: var(--text-muted);
     pointer-events: none;
+}
+
+.search-shortcut {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 2px 8px;
+    font-family: 'Jua', sans-serif;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--btn-secondary-bg);
+    border: 1px solid var(--btn-secondary-border);
+    border-radius: 6px;
+    pointer-events: none;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.header-search input:focus ~ .search-shortcut {
+    display: none;
 }
 
 .search-dropdown {
@@ -1741,6 +1762,10 @@ svg {
 
     .site-footer {
         margin-left: 0;
+    }
+
+    .search-shortcut {
+        display: none;
     }
 
     .hamburger-btn {
