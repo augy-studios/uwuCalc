@@ -30,17 +30,20 @@
         {
             "name": "Scientific Calculator",
             "url": "/scientific",
-            "description": "Open scientific calculator"
+            "description": "Open scientific calculator",
+            "icons": [{ "src": "/UWC-192.png", "sizes": "192x192" }]
         },
         {
             "name": "BMI Calculator",
             "url": "/bmi",
-            "description": "Open BMI calculator"
+            "description": "Open BMI calculator",
+            "icons": [{ "src": "/UWC-192.png", "sizes": "192x192" }]
         },
         {
             "name": "GST Calculator",
             "url": "/gst",
-            "description": "Open GST calculator"
+            "description": "Open GST calculator",
+            "icons": [{ "src": "/UWC-192.png", "sizes": "192x192" }]
         }
     ],
     "start_url": "/",
