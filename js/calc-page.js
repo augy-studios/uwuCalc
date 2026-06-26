@@ -135,7 +135,7 @@
         // Mark sidebar active
         document.querySelectorAll('.sidebar-item').forEach(item => {
             item.classList.remove('active');
-            if (item.getAttribute('href') === `/calc/${slug}`) item.classList.add('active');
+            if (item.getAttribute('href') === `/${slug}`) item.classList.add('active');
         });
     }
 

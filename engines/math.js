@@ -75,7 +75,7 @@ window.uwuEngineMath = (() => {
                 // eslint-disable-next-line no-new-func
                 const res = Function('"use strict";return(' + expr + ')')();
                 document.getElementById('sci-result').innerHTML = result(row('Result', fmt(res, 8)));
-                uwuHistory.add('scientific-calculator', {
+                uwuHistory.add('scientific', {
                     expression: document.getElementById('sci-expr').value,
                     result: fmt(res, 8)
                 });
@@ -132,7 +132,7 @@ window.uwuEngineMath = (() => {
                 label = `${b} − ${a}% = ${res}`;
             }
             document.getElementById('pct-result').innerHTML = result(row('Result', res) + row('', label));
-            uwuHistory.add('percentage-calculator', {
+            uwuHistory.add('percentage', {
                 result: res
             });
         };
@@ -195,7 +195,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('frac-result').innerHTML = result(
                 row('Result', `${sn}/${sd}`) + row('Decimal', fmt(dec, 8)) + row('Percentage', fmt(dec * 100, 4) + '%')
             );
-            uwuHistory.add('fraction-calculator', {
+            uwuHistory.add('fraction', {
                 result: `${sn}/${sd}`
             });
         };
@@ -227,7 +227,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('avg-result').innerHTML = result(
                 row('Count', nums.length) + row('Sum', fmt(sum, 4)) + row('Mean (Average)', fmt(mean, 6)) + row('Median', fmt(median, 6)) + row('Min', sorted[0]) + row('Max', sorted[sorted.length - 1])
             );
-            uwuHistory.add('average-calculator', {
+            uwuHistory.add('average', {
                 mean: fmt(mean, 4)
             });
         };
@@ -271,7 +271,7 @@ window.uwuEngineMath = (() => {
                 row('Mode', mode) + row('Std Deviation (sample)', fmt(sd, 6)) + row('Variance (sample)', fmt(variance, 6)) +
                 row('Range', fmt(range, 4)) + row('Min', sorted[0]) + row('Max', sorted[n - 1])
             );
-            uwuHistory.add('statistics-calculator', {
+            uwuHistory.add('statistics', {
                 mean: fmt(mean, 4),
                 sd: fmt(sd, 4)
             });
@@ -304,7 +304,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('sd-result').innerHTML = result(
                 row('Mean', fmt(mean, 6)) + row('Variance', fmt(variance, 6)) + row('Standard Deviation', fmt(sd, 6))
             );
-            uwuHistory.add('standard-deviation-calculator', {
+            uwuHistory.add('standard-deviation', {
                 sd: fmt(sd, 6)
             });
         };
@@ -343,7 +343,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('mmm-result').innerHTML = result(
                 row('Mean', fmt(mean, 4)) + row('Median', fmt(median, 4)) + row('Mode', mode) + row('Range', fmt(range, 4))
             );
-            uwuHistory.add('mean-median-mode-range-calculator', {
+            uwuHistory.add('mean-median-mode', {
                 mean: fmt(mean, 4)
             });
         };
@@ -389,7 +389,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('prob-result').innerHTML = result(
                 row('Probability', fmt(res, 6)) + row('As percentage', fmt(res * 100, 4) + '%') + row('Odds (for:against)', `${fmt(res,4)} : ${fmt(1-res,4)}`)
             );
-            uwuHistory.add('probability-calculator', {
+            uwuHistory.add('probability', {
                 probability: fmt(res, 6)
             });
         };
@@ -420,7 +420,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('pc-result').innerHTML = result(
                 row('Permutations P(n,r)', perm.toLocaleString()) + row('Combinations C(n,r)', comb.toLocaleString())
             );
-            uwuHistory.add('permutation-and-combination-calculator', {
+            uwuHistory.add('permutation-combination', {
                 permutations: perm,
                 combinations: comb
             });
@@ -447,7 +447,7 @@ window.uwuEngineMath = (() => {
             }
             const g = nums.reduce(gcd);
             document.getElementById('gcf-result').innerHTML = result(row('Greatest Common Factor', g));
-            uwuHistory.add('greatest-common-factor-calculator', {
+            uwuHistory.add('gcf', {
                 gcf: g
             });
         };
@@ -473,7 +473,7 @@ window.uwuEngineMath = (() => {
             }
             const l = nums.reduce(lcm);
             document.getElementById('lcm-result').innerHTML = result(row('Least Common Multiple', l.toLocaleString()));
-            uwuHistory.add('least-common-multiple-calculator', {
+            uwuHistory.add('lcm', {
                 lcm: l
             });
         };
@@ -503,7 +503,7 @@ window.uwuEngineMath = (() => {
                 if (g % i === 0) factors.push(i);
             }
             document.getElementById('cf-result').innerHTML = result(row('GCF', g) + row('All Common Factors', factors.join(', ')));
-            uwuHistory.add('common-factor-calculator', {
+            uwuHistory.add('common-factor', {
                 gcf: g
             });
         };
@@ -536,7 +536,7 @@ window.uwuEngineMath = (() => {
             }
             factors.sort((a, b) => a - b);
             document.getElementById('fac-result').innerHTML = result(row('Factors of ' + n, factors.join(', ')) + row('Number of factors', factors.length));
-            uwuHistory.add('factor-calculator', {
+            uwuHistory.add('factor', {
                 number: n,
                 factors: factors.length
             });
@@ -576,7 +576,7 @@ window.uwuEngineMath = (() => {
             });
             const expr = Object.entries(counts).map(([f, c]) => c > 1 ? `${f}^${c}` : f).join(' × ');
             document.getElementById('pf-result').innerHTML = result(row('Prime Factorization of ' + orig, expr) + row('Prime factors', Object.keys(counts).join(', ')));
-            uwuHistory.add('prime-factorization-calculator', {
+            uwuHistory.add('prime-factorization', {
                 number: orig,
                 factorization: expr
             });
@@ -605,7 +605,7 @@ window.uwuEngineMath = (() => {
             }
             const res = Math.pow(base, power);
             document.getElementById('exp-result').innerHTML = result(row(`${base} ^ ${power}`, res.toLocaleString()));
-            uwuHistory.add('exponent-calculator', {
+            uwuHistory.add('exponent', {
                 result: res
             });
         };
@@ -633,7 +633,7 @@ window.uwuEngineMath = (() => {
             }
             const res = Math.pow(n, 1 / deg);
             document.getElementById('root-result').innerHTML = result(row(`${deg}th root of ${n}`, fmt(res, 8)));
-            uwuHistory.add('root-calculator', {
+            uwuHistory.add('root', {
                 result: fmt(res, 8)
             });
         };
@@ -680,7 +680,7 @@ window.uwuEngineMath = (() => {
                 label = `log₍${cb}₎`;
             }
             document.getElementById('log-result').innerHTML = result(row(`${label}(${n})`, fmt(res, 8)));
-            uwuHistory.add('log-calculator', {
+            uwuHistory.add('log', {
                 result: fmt(res, 8)
             });
         };
@@ -739,7 +739,7 @@ window.uwuEngineMath = (() => {
                 row('Angle A', fmt(A, 4) + '°') + row('Angle B', fmt(B, 4) + '°') + row('Angle C', fmt(C, 4) + '°') +
                 row('Perimeter', fmt(perimeter, 4)) + row('Area', fmt(area, 4))
             );
-            uwuHistory.add('triangle-calculator', {
+            uwuHistory.add('triangle', {
                 area: fmt(area, 4)
             });
         };
@@ -788,7 +788,7 @@ window.uwuEngineMath = (() => {
                 (area ? row('Area', fmt(area, 4)) : '') +
                 (perimeter ? row('Perimeter', fmt(perimeter, 4)) : '')
             );
-            uwuHistory.add('right-triangle-calculator', {
+            uwuHistory.add('right-triangle', {
                 hypotenuse: c ? fmt(c, 4) : '-'
             });
         };
@@ -823,7 +823,7 @@ window.uwuEngineMath = (() => {
                 return;
             }
             document.getElementById('pyth-result').innerHTML = result(row(`${solve} =`, fmt(res, 6)));
-            uwuHistory.add('pythagorean-theorem-calculator', {
+            uwuHistory.add('pythagorean', {
                 result: fmt(res, 6)
             });
         };
@@ -865,7 +865,7 @@ window.uwuEngineMath = (() => {
                     x2 = (-b - Math.sqrt(disc)) / (2 * a);
                 document.getElementById('quad-result').innerHTML = result(row('Discriminant', fmt(disc, 4)) + row('x₁', fmt(x1, 6)) + row('x₂', fmt(x2, 6)));
             }
-            uwuHistory.add('quadratic-formula-calculator', {
+            uwuHistory.add('quadratic', {
                 a,
                 b,
                 c
@@ -951,7 +951,7 @@ window.uwuEngineMath = (() => {
                 return;
             }
             document.getElementById('area-result').innerHTML = result(row('Area', fmt(area, 6)) + (perimeter !== '-' ? row('Perimeter/Circumference', perimeter) : ''));
-            uwuHistory.add('area-calculator', {
+            uwuHistory.add('area', {
                 area: fmt(area, 4)
             });
         };
@@ -1026,7 +1026,7 @@ window.uwuEngineMath = (() => {
                 return;
             }
             document.getElementById('vol-result').innerHTML = result(row('Volume', fmt(vol, 6) + ' cubic units'));
-            uwuHistory.add('volume-calculator', {
+            uwuHistory.add('volume', {
                 volume: fmt(vol, 4)
             });
         };
@@ -1095,7 +1095,7 @@ window.uwuEngineMath = (() => {
                 return;
             }
             document.getElementById('sa-result').innerHTML = result(row('Surface Area', fmt(sa, 6) + ' sq units'));
-            uwuHistory.add('surface-area-calculator', {
+            uwuHistory.add('surface-area', {
                 sa: fmt(sa, 4)
             });
         };
@@ -1129,7 +1129,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('circ-result').innerHTML = result(
                 row('Radius', fmt(r, 6)) + row('Diameter', fmt(2 * r, 6)) + row('Circumference', fmt(2 * Math.PI * r, 6)) + row('Area', fmt(Math.PI * r * r, 6))
             );
-            uwuHistory.add('circle-calculator', {
+            uwuHistory.add('circle', {
                 radius: fmt(r, 4)
             });
         };
@@ -1192,7 +1192,7 @@ window.uwuEngineMath = (() => {
                 (price ? row('Total Cost', `$${fmt(area*price,2)}`) : '') +
                 (price ? row('Price per sq ft', `$${fmt(price,2)}`) : '')
             );
-            uwuHistory.add('square-footage-calculator', {
+            uwuHistory.add('square-footage', {
                 area: fmt(area, 2)
             });
         };
@@ -1234,7 +1234,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('sl2-result').innerHTML = result(
                 row('Slope (m)', fmt(m, 6)) + row('y-intercept (b)', fmt(b, 6)) + row('Equation', `y = ${fmt(m,4)}x + ${fmt(b,4)}`) + row('Angle', fmt(angle, 4) + '°') + row('Distance', fmt(dist, 6))
             );
-            uwuHistory.add('slope-calculator', {
+            uwuHistory.add('slope', {
                 slope: fmt(m, 4)
             });
         };
@@ -1288,7 +1288,7 @@ window.uwuEngineMath = (() => {
                     row(`${a}/${b} = ${fmt(a/b,6)}`, 'first ratio') + row(`${c}/${d} = ${fmt(c/d,6)}`, 'second ratio') + row('Equivalent?', eq ? 'Yes' : 'No')
                 );
             }
-            uwuHistory.add('ratio-calculator', {
+            uwuHistory.add('ratio', {
                 simplified: `${a/g}:${b/g}`
             });
         };
@@ -1320,7 +1320,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('rnd-result').innerHTML = result(
                 row('Rounded', rounded) + row('Floor', floor) + row('Ceiling', ceil)
             );
-            uwuHistory.add('rounding-calculator', {
+            uwuHistory.add('rounding', {
                 rounded
             });
         };
@@ -1365,7 +1365,7 @@ window.uwuEngineMath = (() => {
                 const n = coef * 10 ** exp;
                 document.getElementById('sn-result').innerHTML = result(row('Standard Form', n.toLocaleString('fullwide')));
             }
-            uwuHistory.add('scientific-notation-calculator', {});
+            uwuHistory.add('scientific-notation', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -1406,7 +1406,7 @@ window.uwuEngineMath = (() => {
                 row('Quotient', quotient) + row('Remainder', remainder) + row('Decimal', fmt(decimal, 8)) +
                 `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:13px">Step-by-step</summary><div style="margin-top:6px">${steps}</div></details>`
             );
-            uwuHistory.add('long-division-calculator', {
+            uwuHistory.add('long-division', {
                 quotient,
                 remainder
             });
@@ -1444,7 +1444,7 @@ window.uwuEngineMath = (() => {
                     return;
                 }
                 document.getElementById('bn-result').innerHTML = result(row('Result', res.toString()));
-                uwuHistory.add('big-number-calculator', {
+                uwuHistory.add('big-number', {
                     digits: res.toString().length
                 });
             } catch (e) {
@@ -1477,7 +1477,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('pe-result').innerHTML = result(
                 row('Percent Error', fmt(pe, 4) + '%') + row('Absolute Error', fmt(Math.abs(obs - exp), 6)) + row('Relative Error', fmt(Math.abs(obs - exp) / Math.abs(exp), 6))
             );
-            uwuHistory.add('percent-error-calculator', {
+            uwuHistory.add('percent-error', {
                 error: fmt(pe, 4)
             });
         };
@@ -1510,7 +1510,7 @@ window.uwuEngineMath = (() => {
             let n = Math.ceil((z * z * p * (1 - p)) / (e * e));
             if (isFinite(pop)) n = Math.ceil(n * pop / (n + pop - 1));
             document.getElementById('ss-result').innerHTML = result(row('Required Sample Size', n.toLocaleString()));
-            uwuHistory.add('sample-size-calculator', {
+            uwuHistory.add('sample-size', {
                 size: n
             });
         };
@@ -1547,7 +1547,7 @@ window.uwuEngineMath = (() => {
                 row('Margin of Error', `± ${fmt(margin,4)}`) +
                 row('Standard Error', fmt(se, 6))
             );
-            uwuHistory.add('confidence-interval-calculator', {
+            uwuHistory.add('confidence-interval', {
                 lower: fmt(mean - margin, 4),
                 upper: fmt(mean + margin, 4)
             });
@@ -1591,7 +1591,7 @@ window.uwuEngineMath = (() => {
                 row('Significant at α=0.05?', p_two < 0.05 ? 'Yes (two-tailed)' : 'No') +
                 row('Significant at α=0.01?', p_two < 0.01 ? 'Yes (two-tailed)' : 'No')
             );
-            uwuHistory.add('p-value-calculator', {
+            uwuHistory.add('p-value', {
                 pValue: fmt(p_two, 6)
             });
         };
@@ -1631,7 +1631,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('zs-result').innerHTML = result(
                 row('Z-score', fmt(z, 4)) + row('Percentile', fmt(percentile, 2) + '%') + row('Values below', fmt(percentile, 2) + '% of population')
             );
-            uwuHistory.add('z-score-calculator', {
+            uwuHistory.add('z-score', {
                 z: fmt(z, 4),
                 percentile: fmt(percentile, 2)
             });
@@ -1666,7 +1666,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('ns-result').innerHTML = result(
                 row('Terms', terms.map(t => fmt(t, 4)).join(', ')) + row('Sum', fmt(sum, 4)) + row('nth term formula', type === 'arith' ? `a(n) = ${a} + (n−1) × ${d}` : `a(n) = ${a} × ${d}^(n−1)`)
             );
-            uwuHistory.add('number-sequence-calculator', {
+            uwuHistory.add('number-sequence', {
                 sequence: terms.slice(0, 5).join(',')
             });
         };
@@ -1735,7 +1735,7 @@ window.uwuEngineMath = (() => {
                     }
                 }
                 document.getElementById('mat-result').innerHTML = result(`<pre style="font-family:monospace;font-size:13px;white-space:pre-wrap">${matToStr(res)}</pre>`);
-                uwuHistory.add('matrix-calculator', {
+                uwuHistory.add('matrix', {
                     op
                 });
             } catch (e) {
@@ -1785,7 +1785,7 @@ window.uwuEngineMath = (() => {
                 nums = shuffled.slice(0, count);
             }
             document.getElementById('rng-result').innerHTML = result(row('Generated Numbers', nums.join(', ')));
-            uwuHistory.add('random-number-generator', {
+            uwuHistory.add('random-number', {
                 numbers: nums.join(',')
             });
         };
@@ -1828,19 +1828,19 @@ window.uwuEngineMath = (() => {
                 const rem = n0 * Math.pow(0.5, t / hl);
                 const decayed = n0 - rem;
                 document.getElementById('hl-result').innerHTML = result(row('Remaining', fmt(rem, 4)) + row('Decayed', fmt(decayed, 4)) + row('Fraction remaining', fmt(rem / n0, 6)) + row('Number of half-lives', fmt(t / hl, 4)));
-                uwuHistory.add('half-life-calculator', {
+                uwuHistory.add('half-life', {
                     remaining: fmt(rem, 4)
                 });
             } else if (solve === 'time') {
                 const time = hl * Math.log2(n0 / nr);
                 document.getElementById('hl-result').innerHTML = result(row('Time elapsed', fmt(time, 4)));
-                uwuHistory.add('half-life-calculator', {
+                uwuHistory.add('half-life', {
                     time: fmt(time, 4)
                 });
             } else {
                 const halflife = -t / Math.log2(nr / n0);
                 document.getElementById('hl-result').innerHTML = result(row('Half-life', fmt(halflife, 4)));
-                uwuHistory.add('half-life-calculator', {
+                uwuHistory.add('half-life', {
                     halflife: fmt(halflife, 4)
                 });
             }
@@ -1890,7 +1890,7 @@ window.uwuEngineMath = (() => {
                 res = m / d;
                 document.getElementById('dens-result').innerHTML = result(row('Volume', fmt(res, 6)));
             }
-            uwuHistory.add('density-calculator', {
+            uwuHistory.add('density', {
                 result: fmt(res, 6)
             });
         };
@@ -1928,7 +1928,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('dist-result').innerHTML = result(
                 row('Distance', fmt(dist, 6)) + row('Midpoint X', fmt(midX, 4)) + row('Midpoint Y', fmt(midY, 4)) + (is3D ? row('Midpoint Z', fmt((z1 + z2) / 2, 4)) : '')
             );
-            uwuHistory.add('distance-calculator', {
+            uwuHistory.add('distance', {
                 distance: fmt(dist, 6)
             });
         };
@@ -1972,7 +1972,7 @@ window.uwuEngineMath = (() => {
             document.getElementById('grade-result').innerHTML = result(
                 row('Final Grade', fmt(avg, 2) + '%') + row('Letter Grade', letter) + row('Number of scores', scores.length)
             );
-            uwuHistory.add('grade-calculator', {
+            uwuHistory.add('grade', {
                 grade: fmt(avg, 2),
                 letter
             });
@@ -1986,50 +1986,50 @@ window.uwuEngineMath = (() => {
     // ── Alias map ─────────────────────────────────────────────────────────────
 
     const ALIAS = {
-        'scientific-calculator': renderScientific,
-        'percentage-calculator': renderPercentage,
-        'fraction-calculator': renderFraction,
-        'average-calculator': renderAverage,
-        'statistics-calculator': renderStatistics,
-        'standard-deviation-calculator': renderStdDev,
-        'mean-median-mode-range-calculator': renderMeanMedianMode,
-        'probability-calculator': renderProbability,
-        'permutation-and-combination-calculator': renderPermComb,
-        'greatest-common-factor-calculator': renderGCF,
-        'least-common-multiple-calculator': renderLCM,
-        'common-factor-calculator': renderCommonFactor,
-        'factor-calculator': renderFactor,
-        'prime-factorization-calculator': renderPrimeFactorization,
-        'exponent-calculator': renderExponent,
-        'root-calculator': renderRoot,
-        'log-calculator': renderLog,
-        'triangle-calculator': renderTriangle,
-        'right-triangle-calculator': renderRightTriangle,
-        'pythagorean-theorem-calculator': renderPythagorean,
-        'quadratic-formula-calculator': renderQuadratic,
-        'area-calculator': renderArea,
-        'volume-calculator': renderVolume,
-        'surface-area-calculator': renderSurfaceArea,
-        'circle-calculator': renderCircle,
-        'square-footage-calculator': renderSquareFootage,
-        'slope-calculator': renderSlope,
-        'ratio-calculator': renderRatio,
-        'rounding-calculator': renderRounding,
-        'scientific-notation-calculator': renderScientificNotation,
-        'long-division-calculator': renderLongDivision,
-        'big-number-calculator': renderBigNumber,
-        'percent-error-calculator': renderPercentError,
-        'sample-size-calculator': renderSampleSize,
-        'confidence-interval-calculator': renderConfidenceInterval,
-        'p-value-calculator': renderPValue,
-        'z-score-calculator': renderZScore,
-        'number-sequence-calculator': renderNumberSequence,
-        'matrix-calculator': renderMatrix,
-        'random-number-generator': renderRandomNumber,
-        'half-life-calculator': renderHalfLife,
-        'density-calculator': renderDensity,
-        'distance-calculator': renderDistance,
-        'grade-calculator': renderGrade,
+        'scientific': renderScientific,
+        'percentage': renderPercentage,
+        'fraction': renderFraction,
+        'average': renderAverage,
+        'statistics': renderStatistics,
+        'standard-deviation': renderStdDev,
+        'mean-median-mode': renderMeanMedianMode,
+        'probability': renderProbability,
+        'permutation-combination': renderPermComb,
+        'gcf': renderGCF,
+        'lcm': renderLCM,
+        'common-factor': renderCommonFactor,
+        'factor': renderFactor,
+        'prime-factorization': renderPrimeFactorization,
+        'exponent': renderExponent,
+        'root': renderRoot,
+        'log': renderLog,
+        'triangle': renderTriangle,
+        'right-triangle': renderRightTriangle,
+        'pythagorean': renderPythagorean,
+        'quadratic': renderQuadratic,
+        'area': renderArea,
+        'volume': renderVolume,
+        'surface-area': renderSurfaceArea,
+        'circle': renderCircle,
+        'square-footage': renderSquareFootage,
+        'slope': renderSlope,
+        'ratio': renderRatio,
+        'rounding': renderRounding,
+        'scientific-notation': renderScientificNotation,
+        'long-division': renderLongDivision,
+        'big-number': renderBigNumber,
+        'percent-error': renderPercentError,
+        'sample-size': renderSampleSize,
+        'confidence-interval': renderConfidenceInterval,
+        'p-value': renderPValue,
+        'z-score': renderZScore,
+        'number-sequence': renderNumberSequence,
+        'matrix': renderMatrix,
+        'random-number': renderRandomNumber,
+        'half-life': renderHalfLife,
+        'density': renderDensity,
+        'distance': renderDistance,
+        'grade': renderGrade,
     };
 
     return {

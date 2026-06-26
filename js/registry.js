@@ -1721,6 +1721,7 @@ const CALC_REGISTRY = [
 const CALC_BY_SLUG = {};
 const CALC_BY_ID = {};
 CALC_REGISTRY.forEach(c => {
+    c.slug = c.id;
     CALC_BY_SLUG[c.slug] = c;
     CALC_BY_ID[c.id] = c;
 });

@@ -64,7 +64,7 @@ window.uwuEngineOther = (() => {
                 row('Age', `${y} years, ${m} months, ${d} days`) + row('Total days', totalDays.toLocaleString()) +
                 row('Next birthday in', `${Math.ceil((next-to)/86400000)} days`)
             );
-            uwuHistory.add('age-calculator', {
+            uwuHistory.add('age', {
                 age: `${y}y ${m}m ${d}d`
             });
         };
@@ -114,7 +114,7 @@ window.uwuEngineOther = (() => {
                 r.setDate(r.getDate() + sign * dd);
                 document.getElementById('date-result').innerHTML = result(row('Result Date', r.toDateString()) + row('ISO', r.toISOString().slice(0, 10)));
             }
-            uwuHistory.add('date-calculator', {
+            uwuHistory.add('date', {
                 op
             });
         };
@@ -167,7 +167,7 @@ window.uwuEngineOther = (() => {
             }
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             document.getElementById('dow-result').innerHTML = result(row('Day', days[d.getDay()]) + row('Date', d.toDateString()) + row('Day of year', Math.ceil((d - new Date(d.getFullYear(), 0, 1)) / 86400000) + 1));
-            uwuHistory.add('day-of-the-week-calculator', {
+            uwuHistory.add('day-of-week', {
                 day: days[d.getDay()]
             });
         };
@@ -204,7 +204,7 @@ window.uwuEngineOther = (() => {
                 const abs = Math.abs(res);
                 document.getElementById('time-result').innerHTML = result(row('Result', `${res<0?'-':''}${Math.floor(abs/3600)}h ${Math.floor(abs/60)%60}m ${Math.floor(abs%60)}s`));
             }
-            uwuHistory.add('time-calculator', {});
+            uwuHistory.add('time', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -224,7 +224,7 @@ window.uwuEngineOther = (() => {
             let mins = (eh * 60 + em) - (sh * 60 + sm);
             if (document.getElementById('td-cross').value === 'yes' || mins < 0) mins += 1440;
             document.getElementById('td-result').innerHTML = result(row('Duration', `${Math.floor(mins/60)}h ${mins%60}m`) + row('Total minutes', mins) + row('Total seconds', mins * 60));
-            uwuHistory.add('time-duration-calculator', {
+            uwuHistory.add('time-duration', {
                 duration: `${Math.floor(mins/60)}h ${mins%60}m`
             });
         };
@@ -260,7 +260,7 @@ window.uwuEngineOther = (() => {
                 m = totalMins % 60;
             const rate = parseFloat(document.getElementById('hours-rate').value) || 0;
             document.getElementById('hours-result').innerHTML = result(row('Total worked', `${h}h ${m}m`) + row('Total minutes', totalMins) + (rate ? row('Pay', `$${fmt(totalMins/60*rate,2)}`) : ''));
-            uwuHistory.add('hours-calculator', {
+            uwuHistory.add('hours', {
                 hours: `${h}h ${m}m`
             });
         };
@@ -283,7 +283,7 @@ window.uwuEngineOther = (() => {
             const rate = +document.getElementById('tc-rate').value || 0;
             const worked = (eh * 60 + em) - (sh * 60 + sm) - brk;
             document.getElementById('tc-result').innerHTML = result(row('Hours worked', `${Math.floor(worked/60)}h ${worked%60}m`) + (rate ? row('Pay', `$${fmt(worked/60*rate,2)}`) : ''));
-            uwuHistory.add('time-card-calculator', {});
+            uwuHistory.add('time-card', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -351,7 +351,7 @@ window.uwuEngineOther = (() => {
                     hour12: false
                 });
                 document.getElementById('tz-result').innerHTML = result(row('Converted time', toStr) + row('From timezone', from) + row('To timezone', to));
-                uwuHistory.add('time-zone-calculator', {
+                uwuHistory.add('time-zone', {
                     from,
                     to
                 });
@@ -477,7 +477,7 @@ window.uwuEngineOther = (() => {
                 const res = val * categories[cat][from] / categories[cat][to];
                 document.getElementById('conv-result').innerHTML = result(row(`${val} ${from}`, `${Number(res).toPrecision(8)} ${to}`));
             }
-            uwuHistory.add('conversion-calculator', {
+            uwuHistory.add('conversion', {
                 from,
                 to
             });
@@ -498,7 +498,7 @@ window.uwuEngineOther = (() => {
             const tip = bill * pct / 100,
                 total = bill + tip;
             document.getElementById('tip-result').innerHTML = result(row('Tip', `$${fmt(tip,2)}`) + row('Total', `$${fmt(total,2)}`) + row(`Per person (${ppl})`, `$${fmt(total/ppl,2)}`));
-            uwuHistory.add('tip-calculator', {
+            uwuHistory.add('tip', {
                 total: fmt(total, 2)
             });
         };
@@ -536,7 +536,7 @@ window.uwuEngineOther = (() => {
             const gpa = pts / creds;
             const letter = gpa >= 3.7 ? 'A' : gpa >= 3.3 ? 'A-/B+' : gpa >= 3.0 ? 'B' : gpa >= 2.7 ? 'B-' : gpa >= 2.0 ? 'C' : gpa >= 1.0 ? 'D' : 'F';
             document.getElementById('gpa-result').innerHTML = result(row('GPA', fmt(gpa, 3)) + row('Letter', letter) + row('Total credits', creds));
-            uwuHistory.add('gpa-calculator', {
+            uwuHistory.add('gpa', {
                 gpa: fmt(gpa, 3)
             });
         };
@@ -555,7 +555,7 @@ window.uwuEngineOther = (() => {
                 d = +document.getElementById('conc-d').value / 12;
             const yd3 = (l * w * d) / 27;
             document.getElementById('conc-result').innerHTML = result(row('Volume', `${fmt(yd3,3)} cubic yards`) + row('Volume', `${fmt(yd3*27,2)} cubic feet`) + row('60-lb bags (est.)', Math.ceil(yd3 / 0.017)) + row('80-lb bags (est.)', Math.ceil(yd3 / 0.022)));
-            uwuHistory.add('concrete-calculator', {
+            uwuHistory.add('concrete', {
                 volume: fmt(yd3, 3)
             });
         };
@@ -572,7 +572,7 @@ window.uwuEngineOther = (() => {
             const yd3 = (+document.getElementById('grav-l').value * +document.getElementById('grav-w').value * (+document.getElementById('grav-d').value / 12)) / 27;
             const tons = yd3 * +document.getElementById('grav-mat').value;
             document.getElementById('grav-result').innerHTML = result(row('Volume', `${fmt(yd3,3)} cubic yards`) + row('Weight', `${fmt(tons,2)} tons`));
-            uwuHistory.add('gravel-calculator', {
+            uwuHistory.add('gravel', {
                 volume: fmt(yd3, 3)
             });
         };
@@ -588,7 +588,7 @@ window.uwuEngineOther = (() => {
         window._calcRun = () => {
             const ft3 = +document.getElementById('mulch-l').value * +document.getElementById('mulch-w').value * (+document.getElementById('mulch-d').value / 12);
             document.getElementById('mulch-result').innerHTML = result(row('Volume', `${fmt(ft3,2)} cubic feet`) + row('Volume', `${fmt(ft3/27,3)} cubic yards`) + row('2 cu ft bags', Math.ceil(ft3 / 2)));
-            uwuHistory.add('mulch-calculator', {
+            uwuHistory.add('mulch', {
                 volume: fmt(ft3, 2)
             });
         };
@@ -605,7 +605,7 @@ window.uwuEngineOther = (() => {
             const area = +document.getElementById('roof-l').value * +document.getElementById('roof-w').value * +document.getElementById('roof-pitch').value;
             const withWaste = area * (1 + (+document.getElementById('roof-waste').value) / 100);
             document.getElementById('roof-result').innerHTML = result(row('Roof area', `${fmt(area,0)} sq ft`) + row('With waste', `${fmt(withWaste,0)} sq ft`) + row('Roofing squares', fmt(withWaste / 100, 2)));
-            uwuHistory.add('roofing-calculator', {
+            uwuHistory.add('roofing', {
                 area: fmt(area, 0)
             });
         };
@@ -625,7 +625,7 @@ window.uwuEngineOther = (() => {
             const price = +document.getElementById('tile-price').value || 0;
             const n = Math.ceil(ra / ta * (1 + waste / 100));
             document.getElementById('tile-result').innerHTML = result(row('Tiles needed', n) + (price ? row('Total cost', `$${fmt(n*price,2)}`) : ''));
-            uwuHistory.add('tile-calculator', {
+            uwuHistory.add('tile', {
                 tiles: n
             });
         };
@@ -646,7 +646,7 @@ window.uwuEngineOther = (() => {
                 tread = 10,
                 run = n * tread;
             document.getElementById('stair-result').innerHTML = result(row('Number of risers', n) + row('Actual riser height', `${fmt(actual,3)}"`) + row('Total run', `${run}"`) + row('Stringer length', `${fmt(Math.sqrt(h*h+run*run),1)}"`));
-            uwuHistory.add('stair-calculator', {
+            uwuHistory.add('stair', {
                 risers: n
             });
         };
@@ -666,7 +666,7 @@ window.uwuEngineOther = (() => {
             const litres = d * eff / 100,
                 cost = litres * price;
             document.getElementById('fuel-result').innerHTML = result(row('Fuel needed', `${fmt(litres,2)} L`) + row('Total cost', `$${fmt(cost,2)}`) + row('Cost per km', `$${fmt(cost/d,4)}`));
-            uwuHistory.add('fuel-cost-calculator', {
+            uwuHistory.add('fuel-cost', {
                 cost: fmt(cost, 2)
             });
         };
@@ -694,7 +694,7 @@ window.uwuEngineOther = (() => {
                 const lp = f / d * 100;
                 document.getElementById('mpg-result').innerHTML = result(row('Fuel efficiency', `${fmt(lp,2)} L/100km`) + row('MPG', fmt(235.215 / lp, 2)));
             }
-            uwuHistory.add('gas-mileage-calculator', {});
+            uwuHistory.add('gas-mileage', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -713,7 +713,7 @@ window.uwuEngineOther = (() => {
             if (solve === 'distance') document.getElementById('mil-result').innerHTML = result(row('Distance', `${fmt(s*t,2)} km`));
             else if (solve === 'time') document.getElementById('mil-result').innerHTML = result(row('Time', `${fmt(d/s,4)} hours`));
             else document.getElementById('mil-result').innerHTML = result(row('Speed', `${fmt(d/t,2)} km/h`));
-            uwuHistory.add('mileage-calculator', {});
+            uwuHistory.add('mileage', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -731,7 +731,7 @@ window.uwuEngineOther = (() => {
         window._calcRun = () => {
             const btu = Math.round(+document.getElementById('btu-area').value * 20 * +document.getElementById('btu-ins').value);
             document.getElementById('btu-result').innerHTML = result(row('Required BTU/hr', btu.toLocaleString()) + row('Tonnage', fmt(btu / 12000, 2)) + row('kW', fmt(btu * 0.000293071, 2)));
-            uwuHistory.add('btu-calculator', {
+            uwuHistory.add('btu', {
                 btu
             });
         };
@@ -751,7 +751,7 @@ window.uwuEngineOther = (() => {
             const daily = w * h / 1000,
                 monthly = daily * 30;
             document.getElementById('elec-result').innerHTML = result(row('Daily', `${fmt(daily,3)} kWh`) + row('Monthly', `${fmt(monthly,2)} kWh`) + (rate ? row('Monthly cost', `$${fmt(monthly*rate,2)}`) : ''));
-            uwuHistory.add('electricity-calculator', {
+            uwuHistory.add('electricity', {
                 monthly: fmt(monthly, 2)
             });
         };
@@ -769,7 +769,7 @@ window.uwuEngineOther = (() => {
             const bps = +document.getElementById('bw-speed').value * 125000;
             const secs = bytes / bps;
             document.getElementById('bw-result').innerHTML = result(row('Download time', secs < 60 ? `${fmt(secs,2)}s` : secs < 3600 ? `${fmt(secs/60,2)} min` : `${fmt(secs/3600,2)} hrs`));
-            uwuHistory.add('bandwidth-calculator', {});
+            uwuHistory.add('bandwidth', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -794,7 +794,7 @@ window.uwuEngineOther = (() => {
             const toIP = n => [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.');
             const toMask = m => toIP(m);
             document.getElementById('ip-result').innerHTML = result(row('Network', toIP(network)) + row('Broadcast', toIP(broadcast)) + row('Subnet mask', toMask(mask)) + row('First host', toIP(network + 1)) + row('Last host', toIP(broadcast - 1)) + row('Usable hosts', (broadcast - network - 1).toLocaleString()));
-            uwuHistory.add('ip-subnet-calculator', {
+            uwuHistory.add('ip-subnet', {
                 network: toIP(network)
             });
         };
@@ -823,7 +823,7 @@ window.uwuEngineOther = (() => {
             }
             const P = resV * resI;
             document.getElementById('ohm-result').innerHTML = result(row('Voltage', `${fmt(resV,4)} V`) + row('Current', `${fmt(resI,4)} A`) + row('Resistance', `${fmt(resR,4)} Ω`) + row('Power', `${fmt(P,4)} W`));
-            uwuHistory.add('ohms-law-calculator', {
+            uwuHistory.add('ohms-law', {
                 V: fmt(resV, 4),
                 I: fmt(resI, 4),
                 R: fmt(resR, 4)
@@ -846,7 +846,7 @@ window.uwuEngineOther = (() => {
             const drop = 2 * len * ohmsPerFt * I;
             const pct = drop / V * 100;
             document.getElementById('vd-result').innerHTML = result(row('Voltage drop', `${fmt(drop,3)} V`) + row('Percentage', `${fmt(pct,2)}%`) + row('Receiving end voltage', `${fmt(V-drop,3)} V`) + row(pct > 3 ? 'Warning' : 'Status', pct > 3 ? 'Exceeds 3% recommended limit' : 'Within acceptable range'));
-            uwuHistory.add('voltage-drop-calculator', {
+            uwuHistory.add('voltage-drop', {
                 drop: fmt(drop, 3)
             });
         };
@@ -912,7 +912,7 @@ window.uwuEngineOther = (() => {
             const ohms = (b1 * 10 + b2) * mult;
             const display = ohms >= 1000000 ? `${fmt(ohms/1000000,3)} MΩ` : ohms >= 1000 ? `${fmt(ohms/1000,3)} kΩ` : `${fmt(ohms,3)} Ω`;
             document.getElementById('res-result').innerHTML = result(row('Resistance', display) + row('Tolerance', tol));
-            uwuHistory.add('resistor-calculator', {
+            uwuHistory.add('resistor', {
                 resistance: display
             });
         };
@@ -938,7 +938,7 @@ window.uwuEngineOther = (() => {
                 const hp = (v * a * eff) / 746;
                 document.getElementById('hp-result').innerHTML = result(row('Horsepower', `${fmt(hp,3)} HP`) + row('Watts', `${fmt(v*a*eff,1)} W`));
             }
-            uwuHistory.add('horsepower-calculator', {});
+            uwuHistory.add('horsepower', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -954,7 +954,7 @@ window.uwuEngineOther = (() => {
                 w = +document.getElementById('ehp-weight').value;
             const hp = Math.pow(s / 234, 3) * w;
             document.getElementById('ehp-result').innerHTML = result(row('Estimated HP (trap speed method)', `${fmt(hp,0)} HP`));
-            uwuHistory.add('engine-horsepower-calculator', {
+            uwuHistory.add('engine-horsepower', {
                 hp: fmt(hp, 0)
             });
         };
@@ -989,7 +989,7 @@ window.uwuEngineOther = (() => {
                     row('Difference', `${fmt(n.od-stock.od,1)} mm (${fmt(pctDiff,2)}%)`) +
                     row('Speedometer error', pctDiff > 0 ? `Reads ${fmt(speedoErr,2)}% low` : `Reads ${fmt(-speedoErr,2)}% high`)
                 );
-                uwuHistory.add('tire-size-calculator', {
+                uwuHistory.add('tire-size', {
                     diff: fmt(pctDiff, 2)
                 });
             } catch (e) {
@@ -1050,7 +1050,7 @@ window.uwuEngineOther = (() => {
                 breakdown += `${el}×${count}(${elements[el]}) `;
             }
             document.getElementById('mw-result').innerHTML = result(row('Molecular weight', `${fmt(mw,4)} g/mol`) + row('Formula', formula) + row('Breakdown', breakdown.trim()));
-            uwuHistory.add('molecular-weight-calculator', {
+            uwuHistory.add('molecular-weight', {
                 mw: fmt(mw, 4)
             });
         };
@@ -1071,7 +1071,7 @@ window.uwuEngineOther = (() => {
             if (solve === 'M') document.getElementById('mol-result').innerHTML = result(row('Molarity', `${fmt(n/v,4)} mol/L`));
             else if (solve === 'n') document.getElementById('mol-result').innerHTML = result(row('Moles', `${fmt(M*v,4)} mol`));
             else document.getElementById('mol-result').innerHTML = result(row('Volume', `${fmt(n/M,4)} L`));
-            uwuHistory.add('molarity-calculator', {});
+            uwuHistory.add('molarity', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -1092,7 +1092,7 @@ window.uwuEngineOther = (() => {
             const HI = -42.379 + 2.04901523 * T + 10.14333127 * RH - 0.22475541 * T * RH - 0.00683783 * T * T - 0.05481717 * RH * RH + 0.00122874 * T * T * RH + 0.00085282 * T * RH * RH - 0.00000199 * T * T * RH * RH;
             let cat = HI < 91 ? 'Caution' : HI < 104 ? 'Extreme caution' : HI < 125 ? 'Danger' : 'Extreme danger';
             document.getElementById('hi-result').innerHTML = result(row('Heat Index', `${fmt(HI,1)}°F (${fmt((HI-32)*5/9,1)}°C)`) + row('Category', cat));
-            uwuHistory.add('heat-index-calculator', {
+            uwuHistory.add('heat-index', {
                 hi: fmt(HI, 1)
             });
         };
@@ -1113,7 +1113,7 @@ window.uwuEngineOther = (() => {
             const alpha = (a * T / (b + T)) + Math.log(RH / 100);
             const dp = (b * alpha) / (a - alpha);
             document.getElementById('dp-result').innerHTML = result(row('Dew Point', `${fmt(dp,1)}°C (${fmt(dp*9/5+32,1)}°F)`));
-            uwuHistory.add('dew-point-calculator', {
+            uwuHistory.add('dew-point', {
                 dp: fmt(dp, 1)
             });
         };
@@ -1135,7 +1135,7 @@ window.uwuEngineOther = (() => {
             }
             const wc = 35.74 + 0.6215 * T - 35.75 * Math.pow(V, 0.16) + 0.4275 * T * Math.pow(V, 0.16);
             document.getElementById('wc-result').innerHTML = result(row('Wind Chill', `${fmt(wc,1)}°F (${fmt((wc-32)*5/9,1)}°C)`));
-            uwuHistory.add('wind-chill-calculator', {
+            uwuHistory.add('wind-chill', {
                 wc: fmt(wc, 1)
             });
         };
@@ -1165,7 +1165,7 @@ window.uwuEngineOther = (() => {
                 label = 'Volume (m³)';
             }
             document.getElementById('mass-result').innerHTML = result(row(label, fmt(res, 6)));
-            uwuHistory.add('mass-calculator', {
+            uwuHistory.add('mass', {
                 result: fmt(res, 6)
             });
         };
@@ -1190,7 +1190,7 @@ window.uwuEngineOther = (() => {
                 from = document.getElementById('wgt-from').value;
             const kg = val * toKg[from];
             document.getElementById('wgt-result').innerHTML = result(row('Kilograms', fmt(kg, 4)) + row('Pounds', fmt(kg / 0.453592, 4)) + row('Ounces', fmt(kg / 0.0283495, 3)) + row('Grams', fmt(kg * 1000, 1)) + row('Stones', fmt(kg / 6.35029, 4)));
-            uwuHistory.add('weight-calculator', {
+            uwuHistory.add('weight-calc', {
                 kg: fmt(kg, 4)
             });
         };
@@ -1217,7 +1217,7 @@ window.uwuEngineOther = (() => {
             const pct = Math.max(30, h);
             const msg = pct > 80 ? 'A perfect match!' : pct > 60 ? 'Great compatibility!' : pct > 40 ? 'There is potential!' : 'Keep getting to know each other!';
             document.getElementById('love-result').innerHTML = result(row('Compatibility', `${pct}%`) + row('Verdict', msg));
-            uwuHistory.add('love-calculator', {
+            uwuHistory.add('love', {
                 pct
             });
         };
@@ -1239,7 +1239,7 @@ window.uwuEngineOther = (() => {
             }, () => Math.floor(Math.random() * sides) + 1);
             const sum = rolls.reduce((a, b) => a + b, 0) + mod;
             document.getElementById('dice-result').innerHTML = result(row('Rolls', rolls.join(', ')) + row('Sum', rolls.reduce((a, b) => a + b, 0)) + (mod ? row('Modifier', mod > 0 ? `+${mod}` : mod) : '') + row('Total', sum));
-            uwuHistory.add('dice-roller', {
+            uwuHistory.add('dice', {
                 rolls: rolls.join(','),
                 total: sum
             });
@@ -1275,7 +1275,7 @@ window.uwuEngineOther = (() => {
             const pw = Array.from(arr).map(b => chars[b % chars.length]).join('');
             const entropy = Math.log2(Math.pow(chars.length, len));
             document.getElementById('pw-result').innerHTML = result(`<div style="font-family:monospace;font-size:16px;word-break:break-all;padding:8px;background:var(--glass-bg);border-radius:6px;margin-bottom:8px">${pw}</div>` + row('Entropy', `${fmt(entropy,1)} bits`) + row('Strength', entropy < 40 ? 'Weak' : entropy < 60 ? 'Good' : entropy < 80 ? 'Strong' : 'Very strong'));
-            uwuHistory.add('password-generator', {
+            uwuHistory.add('password', {
                 length: len,
                 entropy: fmt(entropy, 1)
             });
@@ -1330,14 +1330,14 @@ window.uwuEngineOther = (() => {
                     return;
                 }
                 document.getElementById('rn-result').innerHTML = result(row('Roman numeral', toRoman(n)));
-                uwuHistory.add('roman-numeral-converter', {
+                uwuHistory.add('roman-numeral', {
                     roman: toRoman(n)
                 });
             } else {
                 const s = document.getElementById('rn-roman').value.trim().toUpperCase();
                 const n = fromRoman(s);
                 document.getElementById('rn-result').innerHTML = result(row('Number', n.toLocaleString()));
-                uwuHistory.add('roman-numeral-converter', {
+                uwuHistory.add('roman-numeral', {
                     number: n
                 });
             }
@@ -1361,7 +1361,7 @@ window.uwuEngineOther = (() => {
             document.getElementById('shoe-result').innerHTML = result(
                 row("US Men's", fmt(sex === 'mens' ? us_m : us_m - 1.5, 1)) + row("US Women's", fmt(sex === 'womens' ? us_w : us_w + 1.5, 1)) + row('UK', fmt(uk, 1)) + row('EU', eu)
             );
-            uwuHistory.add('shoe-size-conversion', {
+            uwuHistory.add('shoe-size', {
                 eu
             });
         };
@@ -1387,7 +1387,7 @@ window.uwuEngineOther = (() => {
                 else res = a * b;
                 document.getElementById('bin-result').innerHTML = result(row('Result (decimal)', res) + row('Result (binary)', res.toString(2)) + row('Result (hex)', res.toString(16).toUpperCase()));
             }
-            uwuHistory.add('binary-calculator', {});
+            uwuHistory.add('binary', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -1405,7 +1405,7 @@ window.uwuEngineOther = (() => {
                 return;
             }
             document.getElementById('hex-result').innerHTML = result(row('Decimal', val) + row('Binary', val.toString(2)) + row('Octal', val.toString(8)) + row('Hexadecimal', val.toString(16).toUpperCase()));
-            uwuHistory.add('hex-calculator', {});
+            uwuHistory.add('hex', {});
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -1426,7 +1426,7 @@ window.uwuEngineOther = (() => {
             try {
                 const out = op === 'enc' ? btoa(unescape(encodeURIComponent(input))) : decodeURIComponent(escape(atob(input)));
                 document.getElementById('b64-result').innerHTML = `<div class="calc-result"><div class="result-row"><span class="result-label">Output</span></div><textarea rows="4" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text);font-family:monospace;resize:vertical" readonly>${out}</textarea></div>`;
-                uwuHistory.add('base64-encode-decode', {
+                uwuHistory.add('base64', {
                     op
                 });
             } catch (e) {
@@ -1451,7 +1451,7 @@ window.uwuEngineOther = (() => {
             }
             const out = op === 'enc' ? encodeURIComponent(input) : decodeURIComponent(input);
             document.getElementById('url-result').innerHTML = `<div class="calc-result"><div class="result-row"><span class="result-label">Output</span></div><textarea rows="3" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text);font-family:monospace;resize:vertical" readonly>${out}</textarea></div>`;
-            uwuHistory.add('url-encode-decode', {
+            uwuHistory.add('url-encode', {
                 op
             });
         };
@@ -1472,7 +1472,7 @@ window.uwuEngineOther = (() => {
                 M = +document.getElementById('gdp-m').value;
             const GDP = C + I + G + (X - M);
             document.getElementById('gdp-result').innerHTML = result(row('GDP', GDP.toLocaleString()) + row('Net exports (X−M)', (X - M).toLocaleString()) + row('Trade balance', X > M ? 'Surplus' : 'Deficit'));
-            uwuHistory.add('gdp-calculator', {
+            uwuHistory.add('gdp', {
                 gdp: GDP
             });
         };
@@ -1503,7 +1503,7 @@ window.uwuEngineOther = (() => {
             const final = weighted / totalWeight * 100;
             const letter = final >= 93 ? 'A' : final >= 90 ? 'A-' : final >= 87 ? 'B+' : final >= 83 ? 'B' : final >= 80 ? 'B-' : final >= 77 ? 'C+' : final >= 73 ? 'C' : final >= 70 ? 'C-' : final >= 67 ? 'D+' : final >= 60 ? 'D' : 'F';
             document.getElementById('grade-result').innerHTML = result(row('Weighted average', `${fmt(final,2)}%`) + row('Letter grade', letter) + row('Weight accounted', `${fmt(totalWeight,1)}%`));
-            uwuHistory.add('grade-calculator', { grade: fmt(final, 2) });
+            uwuHistory.add('grade', { grade: fmt(final, 2) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('grade-result').innerHTML = ''; };
     }
@@ -1542,7 +1542,7 @@ window.uwuEngineOther = (() => {
                 const inches = cm / 2.54, ft = Math.floor(inches / 12), inR = inches % 12;
                 document.getElementById('ht-result').innerHTML = result(row('Centimeters', fmt(cm, 2)) + row('Inches', fmt(inches, 2)) + row('Feet & inches', `${ft}'${fmt(inR,1)}"`));
             }
-            uwuHistory.add('height-calculator', {});
+            uwuHistory.add('height', {});
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('ht-result').innerHTML = ''; };
     }
@@ -1564,7 +1564,7 @@ window.uwuEngineOther = (() => {
             const cups = ['AA','A','B','C','D','DD','DDD/F','G','H','I','J'];
             const cupSize = diff >= 0 && diff < cups.length ? cups[diff] : diff < 0 ? 'AA' : cups[cups.length - 1] + '+';
             document.getElementById('bra-result').innerHTML = result(row('Band size', adjBand) + row('Cup size', cupSize) + row('Bra size', `${adjBand}${cupSize}`) + row('Difference', `${diff} inches`));
-            uwuHistory.add('bra-size-calculator', { size: `${adjBand}${cupSize}` });
+            uwuHistory.add('bra-size', { size: `${adjBand}${cupSize}` });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('bra-result').innerHTML = ''; };
     }
@@ -1591,7 +1591,7 @@ window.uwuEngineOther = (() => {
             else sqft = 0.5 * +document.getElementById('sqft-b').value * +document.getElementById('sqft-h').value;
             const price = +document.getElementById('sqft-price').value || 0;
             document.getElementById('sqft-result').innerHTML = result(row('Area', `${fmt(sqft,2)} sq ft`) + row('Square meters', fmt(sqft * 0.092903, 2)) + row('Acres', fmt(sqft / 43560, 4)) + (price ? row('Total cost', `$${fmt(sqft * price, 2)}`) : ''));
-            uwuHistory.add('square-footage-calculator', { sqft: fmt(sqft, 2) });
+            uwuHistory.add('square-footage', { sqft: fmt(sqft, 2) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('sqft-result').innerHTML = ''; };
     }
@@ -1607,7 +1607,7 @@ window.uwuEngineOther = (() => {
             else if (solve === 'mass') { res = rho * v; label = 'Mass (kg)'; }
             else { res = m / rho; label = 'Volume (m³)'; }
             document.getElementById('den-result').innerHTML = result(row(label, fmt(res, 6)));
-            uwuHistory.add('density-calculator', { result: fmt(res, 6) });
+            uwuHistory.add('density', { result: fmt(res, 6) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('den-result').innerHTML = ''; };
     }
@@ -1637,7 +1637,7 @@ window.uwuEngineOther = (() => {
             const avg = best.reduce((a, b) => a + b, 0) / best.length;
             const handicap = avg * 0.96;
             document.getElementById('golf-result').innerHTML = result(row('Handicap Index', fmt(handicap, 1)) + row('Best differentials used', useCount) + row('Rounds entered', diffs.length));
-            uwuHistory.add('golf-handicap-calculator', { handicap: fmt(handicap, 1) });
+            uwuHistory.add('golf-handicap', { handicap: fmt(handicap, 1) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('golf-result').innerHTML = ''; };
     }
@@ -1691,7 +1691,7 @@ window.uwuEngineOther = (() => {
             }
             html += `<p style="margin-top:10px;font-size:13px;opacity:0.7">Based on ${cycleMin}-min sleep cycles + ${fallAsleep} min to fall asleep.</p>`;
             document.getElementById('sleep-result').innerHTML = result(html);
-            uwuHistory.add('sleep-calculator', {});
+            uwuHistory.add('sleep', {});
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('sleep-result').innerHTML = ''; };
     }
@@ -1699,62 +1699,62 @@ window.uwuEngineOther = (() => {
     // ── Alias map ─────────────────────────────────────────────────────────────
 
     const ALIAS = {
-        'age-calculator': renderAge,
-        'date-calculator': renderDate,
+        'age': renderAge,
+        'date': renderDate,
         'day-counter': renderDayCounter,
-        'day-of-the-week-calculator': renderDayOfWeek,
-        'time-calculator': renderTime,
-        'time-duration-calculator': renderTimeDuration,
-        'hours-calculator': renderHours,
-        'time-card-calculator': renderTimeCard,
-        'time-zone-calculator': renderTimeZone,
-        'conversion-calculator': renderConversion,
-        'tip-calculator': renderTip,
-        'gpa-calculator': renderGPA,
-        'concrete-calculator': renderConcrete,
-        'gravel-calculator': renderGravel,
-        'mulch-calculator': renderMulch,
-        'roofing-calculator': renderRoofing,
-        'tile-calculator': renderTile,
-        'stair-calculator': renderStair,
-        'fuel-cost-calculator': renderFuelCost,
-        'gas-mileage-calculator': renderGasMileage,
-        'mileage-calculator': renderMileage,
-        'speed-calculator': renderSpeed,
-        'btu-calculator': renderBTU,
-        'electricity-calculator': renderElectricity,
-        'bandwidth-calculator': renderBandwidth,
-        'ip-subnet-calculator': renderIPSubnet,
-        'ohms-law-calculator': renderOhmsLaw,
-        'voltage-drop-calculator': renderVoltageDrop,
-        'resistor-calculator': renderResistor,
-        'horsepower-calculator': renderHorsepower,
-        'engine-horsepower-calculator': renderEngineHorsepower,
-        'tire-size-calculator': renderTireSize,
-        'molecular-weight-calculator': renderMolecularWeight,
-        'molarity-calculator': renderMolarity,
-        'heat-index-calculator': renderHeatIndex,
-        'dew-point-calculator': renderDewPoint,
-        'wind-chill-calculator': renderWindChill,
-        'mass-calculator': renderMass,
-        'weight-calculator': renderWeight,
-        'love-calculator': renderLove,
-        'dice-roller': renderDice,
-        'password-generator': renderPassword,
-        'roman-numeral-converter': renderRomanNumeral,
-        'shoe-size-conversion': renderShoeSize,
-        'binary-calculator': renderBinary,
-        'hex-calculator': renderHex,
-        'base64-encode-decode': renderBase64,
-        'url-encode-decode': renderURLEncode,
-        'gdp-calculator': renderGDP,
-        'grade-calculator': renderGrade,
-        'height-calculator': renderHeight,
-        'bra-size-calculator': renderBraSize,
-        'square-footage-calculator': renderSquareFootage,
-        'density-calculator': renderDensity,
-        'golf-handicap-calculator': renderGolfHandicap,
-        'sleep-calculator': renderSleep,
+        'day-of-week': renderDayOfWeek,
+        'time': renderTime,
+        'time-duration': renderTimeDuration,
+        'hours': renderHours,
+        'time-card': renderTimeCard,
+        'time-zone': renderTimeZone,
+        'conversion': renderConversion,
+        'tip': renderTip,
+        'gpa': renderGPA,
+        'concrete': renderConcrete,
+        'gravel': renderGravel,
+        'mulch': renderMulch,
+        'roofing': renderRoofing,
+        'tile': renderTile,
+        'stair': renderStair,
+        'fuel-cost': renderFuelCost,
+        'gas-mileage': renderGasMileage,
+        'mileage': renderMileage,
+        'speed': renderSpeed,
+        'btu': renderBTU,
+        'electricity': renderElectricity,
+        'bandwidth': renderBandwidth,
+        'ip-subnet': renderIPSubnet,
+        'ohms-law': renderOhmsLaw,
+        'voltage-drop': renderVoltageDrop,
+        'resistor': renderResistor,
+        'horsepower': renderHorsepower,
+        'engine-horsepower': renderEngineHorsepower,
+        'tire-size': renderTireSize,
+        'molecular-weight': renderMolecularWeight,
+        'molarity': renderMolarity,
+        'heat-index': renderHeatIndex,
+        'dew-point': renderDewPoint,
+        'wind-chill': renderWindChill,
+        'mass': renderMass,
+        'weight-calc': renderWeight,
+        'love': renderLove,
+        'dice': renderDice,
+        'password': renderPassword,
+        'roman-numeral': renderRomanNumeral,
+        'shoe-size': renderShoeSize,
+        'binary': renderBinary,
+        'hex': renderHex,
+        'base64': renderBase64,
+        'url-encode': renderURLEncode,
+        'gdp': renderGDP,
+        'grade': renderGrade,
+        'height': renderHeight,
+        'bra-size': renderBraSize,
+        'square-footage': renderSquareFootage,
+        'density': renderDensity,
+        'golf-handicap': renderGolfHandicap,
+        'sleep': renderSleep,
     };
 
     return {

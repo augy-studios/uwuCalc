@@ -32,7 +32,7 @@ function buildSidebar() {
   `;
     CATEGORIES.forEach(cat => {
         const calcs = getCalcsByCategory(cat);
-        const hasActive = calcs.some(c => currentPath === `/calc/${c.slug}`);
+        const hasActive = calcs.some(c => currentPath === `/${c.slug}`);
         html += `
       <div class="sidebar-section${hasActive ? '' : ' collapsed'}">
         <div class="sidebar-section-header">
@@ -42,7 +42,7 @@ function buildSidebar() {
         </div>
         <div class="sidebar-section-items">
           ${calcs.map(c => `
-            <a href="/calc/${c.slug}" class="sidebar-item${currentPath === '/calc/' + c.slug ? ' active' : ''}">
+            <a href="/${c.slug}" class="sidebar-item${currentPath === '/' + c.slug ? ' active' : ''}">
               <span style="width:14px;height:14px;display:inline-block;"></span>
               ${c.name}
               <button class="sidebar-fav-star" data-calc-id="${c.id}" aria-label="Toggle favourite">
@@ -81,7 +81,7 @@ function buildCalcGrid(cat) {
     }
 
     grid.innerHTML = calcs.map(c => `
-    <a href="/calc/${c.slug}" class="calc-card">
+    <a href="/${c.slug}" class="calc-card">
       <div class="calc-card-icon">${CATEGORY_ICONS[c.category] || CATEGORY_ICONS['Other']}</div>
       <div class="calc-card-name">${c.name}</div>
       <div class="calc-card-cat">${c.category}</div>

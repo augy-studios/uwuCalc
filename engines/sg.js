@@ -69,7 +69,7 @@ window.uwuEngineSG = (() => {
                     row('Tax payable (higher of two)', fmtSGD(tax)) +
                     row('Effective rate', fmt(gross > 0 ? tax / gross * 100 : 0, 2) + '%')
                 );
-                uwuHistory.add('sg-income-tax-calculator', { tax: fmtSGD(tax) });
+                uwuHistory.add('sg-income-tax', { tax: fmtSGD(tax) });
                 return;
             }
             let tax = 0, prev = 0;
@@ -86,7 +86,7 @@ window.uwuEngineSG = (() => {
                 row('After-tax income', fmtSGD(gross - tax)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">Based on IRAS YA2024 resident tax rates. No capital gains tax in Singapore.</p>`
             );
-            uwuHistory.add('sg-income-tax-calculator', { tax: fmtSGD(tax) });
+            uwuHistory.add('sg-income-tax', { tax: fmtSGD(tax) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('sgit-result').innerHTML = ''; };
     }
@@ -131,7 +131,7 @@ window.uwuEngineSG = (() => {
                 row('Monthly take-home pay', fmtSGD(takeHome)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">2024 OW ceiling: S$6,800/month. AW ceiling: S$102,000 - total OW subject to CPF.</p>`
             );
-            uwuHistory.add('cpf-calculator', { total: fmtSGD(totalMonthly) });
+            uwuHistory.add('cpf', { total: fmtSGD(totalMonthly) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('cpf-result').innerHTML = ''; };
     }
@@ -181,7 +181,7 @@ window.uwuEngineSG = (() => {
                 row('Investment growth', fmtSGD(fv - contrib * years)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">SRS withdrawals at retirement: only 50% is taxable. Penalty for early withdrawal: 5% + full tax on 100%.</p>`
             );
-            uwuHistory.add('srs-calculator', { savings: fmtSGD(taxSavings) });
+            uwuHistory.add('srs', { savings: fmtSGD(taxSavings) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('srs-result').innerHTML = ''; };
     }
@@ -213,7 +213,7 @@ window.uwuEngineSG = (() => {
                     row('Total (entered)', fmtSGD(amount))
                 );
             }
-            uwuHistory.add('gst-calculator', { rate: fmt(rate * 100) + '%' });
+            uwuHistory.add('gst', { rate: fmt(rate * 100) + '%' });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('gst-result').innerHTML = ''; };
     }
@@ -274,7 +274,7 @@ window.uwuEngineSG = (() => {
                 row('Total annual CPF (emp+er)', fmtSGD((empCPF + erCPF) * 12)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">2024 CPF OW ceiling: S$6,800/month. Tax estimated using IRAS YA2024 rates.</p>`
             );
-            uwuHistory.add('sg-take-home-pay-calculator', { net: fmtSGD(netTakeHome) });
+            uwuHistory.add('sg-take-home-pay', { net: fmtSGD(netTakeHome) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('sgth-result').innerHTML = ''; };
     }
@@ -323,7 +323,7 @@ window.uwuEngineSG = (() => {
                 row('LTV ratio', fmt(ltvRatio * 100, 1) + '% (max ' + fmt(maxLTV * 100) + '%)') +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">HDB loan rate: CPF OA rate + 0.1% = 2.6%. Max LTV: 80% (HDB) / 75% (bank). Monthly repayment can be paid from CPF OA.</p>`
             );
-            uwuHistory.add('hdb-loan-calculator', { monthly: fmtSGD(monthly) });
+            uwuHistory.add('hdb-loan', { monthly: fmtSGD(monthly) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('hdb-result').innerHTML = ''; };
     }
@@ -358,7 +358,7 @@ window.uwuEngineSG = (() => {
                 row('2024 Basic Retirement Sum', fmtSGD(brs2024)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">Estimates based on ~4% RA interest. Actual payouts depend on CPF Life pool and cohort rates. Payouts are for life.</p>`
             );
-            uwuHistory.add('cpf-life-calculator', { payout: fmtSGD(monthlyPayout) });
+            uwuHistory.add('cpf-life', { payout: fmtSGD(monthlyPayout) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('cpfl-result').innerHTML = ''; };
     }
@@ -403,7 +403,7 @@ window.uwuEngineSG = (() => {
                 row('% of purchase price', fmt(totalSD / price * 100, 2) + '%') +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">ABSD rates effective 27 Apr 2023. SC 1st property: no ABSD. Foreigners: 60% ABSD.</p>`
             );
-            uwuHistory.add('bsd-calculator', { total: fmtSGD(totalSD) });
+            uwuHistory.add('bsd', { total: fmtSGD(totalSD) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('bsd-result').innerHTML = ''; };
     }
@@ -466,7 +466,7 @@ window.uwuEngineSG = (() => {
                 row('NSman incentive', incentive) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">Simplified scoring model. Actual IPPT scoring varies by age group with specific rep/timing tables from MINDEF.</p>`
             );
-            uwuHistory.add('ippt-calculator', { score: total, award });
+            uwuHistory.add('ippt', { score: total, award });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('ippt-result').innerHTML = ''; };
     }
@@ -474,15 +474,15 @@ window.uwuEngineSG = (() => {
     // ── Alias map ─────────────────────────────────────────────────────────────
 
     const ALIAS = {
-        'sg-income-tax-calculator': renderSGIncomeTax,
-        'cpf-calculator': renderCPF,
-        'srs-calculator': renderSRS,
-        'gst-calculator': renderGST,
-        'sg-take-home-pay-calculator': renderSGTakeHome,
-        'hdb-loan-calculator': renderHDBLoan,
-        'cpf-life-calculator': renderCPFLife,
-        'bsd-calculator': renderBSD,
-        'ippt-calculator': renderIPPT,
+        'sg-income-tax': renderSGIncomeTax,
+        'cpf': renderCPF,
+        'srs': renderSRS,
+        'gst': renderGST,
+        'sg-take-home-pay': renderSGTakeHome,
+        'hdb-loan': renderHDBLoan,
+        'cpf-life': renderCPFLife,
+        'bsd': renderBSD,
+        'ippt': renderIPPT,
     };
 
     return {

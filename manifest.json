@@ -33,12 +33,12 @@
         },
         {
             "name": "Scientific Calculator",
-            "url": "/calc/scientific-calculator",
+            "url": "/scientific",
             "description": "Open scientific calculator"
         },
         {
             "name": "BMI Calculator",
-            "url": "/calc/bmi-calculator",
+            "url": "/bmi",
             "description": "Open BMI calculator"
         }
     ],

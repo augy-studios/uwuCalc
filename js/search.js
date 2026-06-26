@@ -58,7 +58,7 @@
         results.forEach(calc => {
             const item = document.createElement('a');
             item.className = 'search-result-item';
-            item.href = `/calc/${calc.slug}`;
+            item.href = `/${calc.slug}`;
             item.innerHTML = `
         <span class="result-icon">${getCategoryIcon(calc.category)}</span>
         <span>

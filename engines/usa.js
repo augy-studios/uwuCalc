@@ -76,7 +76,7 @@ window.uwuEngineUSA = (() => {
                 row('Marginal tax rate', fmt(marginal) + '%') +
                 row('After-tax income', fmtUSD(gross - tax - fica))
             );
-            uwuHistory.add('income-tax-calculator', { tax: fmtUSD(tax) });
+            uwuHistory.add('income-tax', { tax: fmtUSD(tax) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('itax-result').innerHTML = ''; };
     }
@@ -120,7 +120,7 @@ window.uwuEngineUSA = (() => {
                 row('Total investment growth', fmtUSD(fv - totalContribs - totalMatchContribs)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">2024 contribution limit: $23,000 ($30,500 if age 50+)</p>`
             );
-            uwuHistory.add('401k-calculator', { balance: fmtUSD(fv) });
+            uwuHistory.add('401k', { balance: fmtUSD(fv) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('k401-result').innerHTML = ''; };
     }
@@ -150,7 +150,7 @@ window.uwuEngineUSA = (() => {
                 row('Tax-free growth', fmtUSD(fv - totalContrib)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">2024 limit: $7,000 ($8,000 if age 50+). Withdrawals in retirement are tax-free.</p>`
             );
-            uwuHistory.add('roth-ira-calculator', { balance: fmtUSD(fv) });
+            uwuHistory.add('roth-ira', { balance: fmtUSD(fv) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('roth-result').innerHTML = ''; };
     }
@@ -185,7 +185,7 @@ window.uwuEngineUSA = (() => {
                 row('Tax savings from deductions', fmtUSD(taxSavingsNow)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">2024 limit: $7,000 ($8,000 if age 50+). Contributions may be tax-deductible; withdrawals taxed as income.</p>`
             );
-            uwuHistory.add('ira-calculator', { balance: fmtUSD(fv) });
+            uwuHistory.add('ira', { balance: fmtUSD(fv) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('ira-result').innerHTML = ''; };
     }
@@ -220,7 +220,7 @@ window.uwuEngineUSA = (() => {
                 row('Account balance', fmtUSD(balance)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">Based on IRS Uniform Lifetime Table. Penalty for missing RMD: 25% of amount not withdrawn.</p>`
             );
-            uwuHistory.add('rmd-calculator', { rmd: fmtUSD(rmd) });
+            uwuHistory.add('rmd', { rmd: fmtUSD(rmd) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('rmd-result').innerHTML = ''; };
     }
@@ -252,7 +252,7 @@ window.uwuEngineUSA = (() => {
                     row('Total (entered)', fmtUSD(price))
                 );
             }
-            uwuHistory.add('sales-tax-calculator', { rate: fmt(rate * 100, 2) + '%' });
+            uwuHistory.add('sales-tax', { rate: fmt(rate * 100, 2) + '%' });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('stax-result').innerHTML = ''; };
     }
@@ -298,7 +298,7 @@ window.uwuEngineUSA = (() => {
                 row('Impact', diff > 0 ? 'You pay MORE married' : 'You pay LESS married') +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">Based on 2024 federal tax brackets and standard deductions.</p>`
             );
-            uwuHistory.add('marriage-tax-calculator', { diff: fmtUSD(diff) });
+            uwuHistory.add('marriage-tax', { diff: fmtUSD(diff) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('mtax-result').innerHTML = ''; };
     }
@@ -324,7 +324,7 @@ window.uwuEngineUSA = (() => {
                 row('Net to heirs', fmtUSD(estate - tax)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">2024 federal exemption: $13.61M per person. Top rate: 40%.</p>`
             );
-            uwuHistory.add('estate-tax-calculator', { tax: fmtUSD(tax) });
+            uwuHistory.add('estate-tax', { tax: fmtUSD(tax) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('etax-result').innerHTML = ''; };
     }
@@ -357,7 +357,7 @@ window.uwuEngineUSA = (() => {
                 row('Estimated annual benefit', fmtUSD(annual)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">Estimate only. Actual benefits depend on your complete earnings history. Based on 2024 bend points.</p>`
             );
-            uwuHistory.add('social-security-calculator', { monthly: fmtUSD(monthly) });
+            uwuHistory.add('social-security', { monthly: fmtUSD(monthly) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('ss-result').innerHTML = ''; };
     }
@@ -407,7 +407,7 @@ window.uwuEngineUSA = (() => {
                 row('Annual take-home', fmtUSD(netAnnual)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">2024 SS wage base: $168,600. Does not include local taxes or other deductions.</p>`
             );
-            uwuHistory.add('take-home-paycheck-calculator', { net: fmtUSD(netPer) });
+            uwuHistory.add('take-home-paycheck', { net: fmtUSD(netPer) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('thp-result').innerHTML = ''; };
     }
@@ -443,7 +443,7 @@ window.uwuEngineUSA = (() => {
                 row('Total monthly payment', fmtUSD(totalMonthly)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">FHA minimum down: 3.5%. MIP required for loan life if down < 10%.</p>`
             );
-            uwuHistory.add('fha-loan-calculator', { monthly: fmtUSD(totalMonthly) });
+            uwuHistory.add('fha-loan', { monthly: fmtUSD(totalMonthly) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('fha-result').innerHTML = ''; };
     }
@@ -481,7 +481,7 @@ window.uwuEngineUSA = (() => {
                 row('Total over loan life', fmtUSD(monthly * term)) +
                 `<p style="margin-top:8px;font-size:13px;opacity:0.7">VA loans: no PMI, no down payment required. Funding fee may be waived for disabled veterans.</p>`
             );
-            uwuHistory.add('va-mortgage-calculator', { monthly: fmtUSD(monthly) });
+            uwuHistory.add('va-mortgage', { monthly: fmtUSD(monthly) });
         };
         window._calcReset = () => { container.querySelectorAll('input').forEach(i => i.value = ''); document.getElementById('va-result').innerHTML = ''; };
     }
@@ -522,7 +522,7 @@ window.uwuEngineUSA = (() => {
                 row('Army Standard', `${limit}% max`) +
                 row('Status', bf <= limit ? 'Passes Army standard' : 'Fails Army standard')
             );
-            uwuHistory.add('army-body-fat-calculator', { bf: fmt(bf, 1) });
+            uwuHistory.add('army-body-fat', { bf: fmt(bf, 1) });
         };
         window._calcReset = () => {
             container.querySelectorAll('input').forEach(i => i.value = '');
@@ -533,19 +533,19 @@ window.uwuEngineUSA = (() => {
     // ── Alias map ─────────────────────────────────────────────────────────────
 
     const ALIAS = {
-        'income-tax-calculator': renderIncomeTax,
-        '401k-calculator': render401K,
-        'roth-ira-calculator': renderRothIRA,
-        'ira-calculator': renderIRA,
-        'rmd-calculator': renderRMD,
-        'sales-tax-calculator': renderSalesTax,
-        'marriage-tax-calculator': renderMarriageTax,
-        'estate-tax-calculator': renderEstateTax,
-        'social-security-calculator': renderSocialSecurity,
-        'take-home-paycheck-calculator': renderTakeHomePaycheck,
-        'fha-loan-calculator': renderFHALoan,
-        'va-mortgage-calculator': renderVAMortgage,
-        'army-body-fat-calculator': renderArmyBodyFat,
+        'income-tax': renderIncomeTax,
+        '401k': render401K,
+        'roth-ira': renderRothIRA,
+        'ira': renderIRA,
+        'rmd': renderRMD,
+        'sales-tax': renderSalesTax,
+        'marriage-tax': renderMarriageTax,
+        'estate-tax': renderEstateTax,
+        'social-security': renderSocialSecurity,
+        'take-home-paycheck': renderTakeHomePaycheck,
+        'fha-loan': renderFHALoan,
+        'va-mortgage': renderVAMortgage,
+        'army-body-fat': renderArmyBodyFat,
     };
 
     return {
