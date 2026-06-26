@@ -1472,6 +1472,35 @@ svg {
     color: var(--text-secondary);
     line-height: 1.5;
     flex: 1;
+    min-width: 0;
+}
+
+.history-item-right {
+    flex-shrink: 0;
+}
+
+.history-delete-btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity var(--transition), color var(--transition), background var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.history-item:hover .history-delete-btn {
+    opacity: 1;
+}
+
+.history-delete-btn:hover {
+    color: #e53e3e;
+    background: rgba(229, 62, 62, 0.1);
 }
 
 .history-item-result {

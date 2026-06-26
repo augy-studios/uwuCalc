@@ -78,6 +78,19 @@
         }
     }
 
+    function deleteEntry(calcId, idx) {
+        try {
+            const all = JSON.parse(localStorage.getItem(KEY) || '{}');
+            if (all[calcId]) {
+                all[calcId].splice(idx, 1);
+                if (!all[calcId].length) delete all[calcId];
+                localStorage.setItem(KEY, JSON.stringify(all));
+            }
+        } catch (e) {
+            console.warn('History delete failed', e);
+        }
+    }
+
     function clearHistory(calcId) {
         try {
             const all = JSON.parse(localStorage.getItem(KEY) || '{}');
@@ -112,22 +125,36 @@
         listEl.innerHTML = entries.map((e, i) => `
       <div class="history-item${e.fieldValues ? ' clickable' : ''}" data-history-idx="${i}">
         <div class="history-item-inputs">${buildInputDisplay(e.inputs, e.fieldValues)}</div>
-        <div>
+        <div class="history-item-right">
           ${e.result ? `<div class="history-item-result">${e.result}</div>` : ''}
           <div class="history-item-time">${formatTime(e.time)}</div>
         </div>
+        <button class="history-delete-btn" data-delete-idx="${i}" aria-label="Delete entry">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        </button>
       </div>
     `).join('');
 
         // Attach click-to-restore handlers
         listEl.querySelectorAll('.history-item.clickable').forEach(item => {
-            item.addEventListener('click', () => {
+            item.addEventListener('click', (e) => {
+                if (e.target.closest('.history-delete-btn')) return;
                 const idx = parseInt(item.dataset.historyIdx);
                 const entry = entries[idx];
                 if (entry && entry.fieldValues) {
                     restoreFields(entry.fieldValues);
                     showToast('Fields restored from history');
                 }
+            });
+        });
+
+        // Attach delete handlers
+        listEl.querySelectorAll('.history-delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const idx = parseInt(btn.dataset.deleteIdx);
+                deleteEntry(calcId, idx);
+                renderHistoryPanel(calcId);
             });
         });
     }
