@@ -103,9 +103,9 @@ const CALC_REGISTRY = [
         id: 'income-tax',
         name: 'Income Tax Calculator',
         slug: 'income-tax-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Estimate your federal income tax.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'compound-interest',
@@ -127,9 +127,9 @@ const CALC_REGISTRY = [
         id: '401k',
         name: '401K Calculator',
         slug: '401k-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Project your 401(k) balance at retirement.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'interest-rate',
@@ -143,9 +143,9 @@ const CALC_REGISTRY = [
         id: 'sales-tax',
         name: 'Sales Tax Calculator',
         slug: 'sales-tax-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Add or remove sales tax from a price.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'house-affordability',
@@ -175,17 +175,17 @@ const CALC_REGISTRY = [
         id: 'marriage-tax',
         name: 'Marriage Tax Calculator',
         slug: 'marriage-tax-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Compare taxes before and after marriage.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'estate-tax',
         name: 'Estate Tax Calculator',
         slug: 'estate-tax-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Estimate estate tax liability.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'pension',
@@ -199,9 +199,9 @@ const CALC_REGISTRY = [
         id: 'social-security',
         name: 'Social Security Calculator',
         slug: 'social-security-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Estimate Social Security retirement benefits.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'annuity',
@@ -311,25 +311,25 @@ const CALC_REGISTRY = [
         id: 'roth-ira',
         name: 'Roth IRA Calculator',
         slug: 'roth-ira-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Project Roth IRA retirement savings.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'ira',
         name: 'IRA Calculator',
         slug: 'ira-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Project traditional IRA retirement savings.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'rmd',
         name: 'RMD Calculator',
         slug: 'rmd-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Calculate required minimum distributions.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'vat',
@@ -415,9 +415,9 @@ const CALC_REGISTRY = [
         id: 'take-home-paycheck',
         name: 'Take-Home-Paycheck Calculator',
         slug: 'take-home-paycheck-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Estimate your net take-home pay.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'personal-loan',
@@ -495,17 +495,17 @@ const CALC_REGISTRY = [
         id: 'fha-loan',
         name: 'FHA Loan Calculator',
         slug: 'fha-loan-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Calculate FHA loan payments and MIP.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'va-mortgage',
         name: 'VA Mortgage Calculator',
         slug: 'va-mortgage-calculator',
-        category: 'Financial',
+        category: 'US-Centric',
         description: 'Calculate VA loan payments and funding fees.',
-        engine: 'financial'
+        engine: 'usa'
     },
     {
         id: 'home-equity-loan',
@@ -697,9 +697,9 @@ const CALC_REGISTRY = [
         id: 'army-body-fat',
         name: 'Army Body Fat Calculator',
         slug: 'army-body-fat-calculator',
-        category: 'Fitness & Health',
+        category: 'US-Centric',
         description: 'Calculate Army body fat percentage.',
-        engine: 'fitness'
+        engine: 'usa'
     },
     {
         id: 'carbohydrate',
@@ -1651,7 +1651,7 @@ CALC_REGISTRY.forEach(c => {
     CALC_BY_ID[c.id] = c;
 });
 
-const CATEGORIES = ['Financial', 'Fitness & Health', 'Math', 'Other'];
+const CATEGORIES = ['Financial', 'Fitness & Health', 'Math', 'Other', 'US-Centric'];
 
 function getCalcsByCategory(cat) {
     return CALC_REGISTRY.filter(c => c.category === cat);

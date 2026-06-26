@@ -281,34 +281,6 @@
             };
         },
 
-        // --- SALES TAX ---
-        'sales-tax': (el, id) => {
-            el.innerHTML = `
-        <div class="form-row">
-          ${formGroup('stPrice', 'Price Before Tax', 'number', '100', '', '$')}
-          ${formGroup('stRate', 'Tax Rate', 'number', '8.25', '', '', '%')}
-        </div>
-        ${renderButtons(id)}
-        <div id="result_${id}"></div>`;
-            el.querySelector(`#calcBtn_${id}`).onclick = () => {
-                const p = +el.querySelector('#stPrice').value,
-                    r = +el.querySelector('#stRate').value / 100;
-                const tax = p * r;
-                el.querySelector(`#result_${id}`).innerHTML = resultCard([
-                    ['Tax Amount', fmtCurrency(tax)],
-                    ['Total Price', fmtCurrency(p + tax)]
-                ]);
-                if (window.uwuHistory) uwuHistory.add(id, {
-                    Price: fmtCurrency(p),
-                    Rate: el.querySelector('#stRate').value + '%'
-                }, fmtCurrency(tax));
-            };
-            el.querySelector(`#resetBtn_${id}`).onclick = () => {
-                el.querySelectorAll('input').forEach(i => i.value = '');
-                el.querySelector(`#result_${id}`).innerHTML = '';
-            };
-        },
-
         // --- VAT ---
         'vat': (el, id) => {
             el.innerHTML = `
@@ -686,17 +658,12 @@
         'mortgage-uk': 'mortgage',
         'canadian-mortgage': 'mortgage',
         'mortgage-amortization': 'mortgage',
-        'fha-loan': 'mortgage',
-        'va-mortgage': 'mortgage',
         'home-equity-loan': 'loan',
         'heloc': 'loan',
         'lease': 'auto-loan',
         'auto-lease': 'auto-loan',
         'refinance': 'mortgage',
         'retirement': 'savings',
-        '401k': 'savings',
-        'roth-ira': 'savings',
-        'ira': 'savings',
         'mutual-fund': 'savings',
         'annuity': 'savings',
         'annuity-payout': 'savings',
@@ -713,21 +680,15 @@
         'debt-payoff': 'loan',
         'debt-consolidation': 'loan',
         'college-cost': 'savings',
-        'income-tax': 'salary',
-        'take-home-paycheck': 'salary',
         'interest': 'compound-interest',
         'interest-rate': 'simple-interest',
         'finance': 'future-value',
         'bond': 'savings',
-        'rmd': 'savings',
         'payback-period': 'roi',
         'apr': 'loan',
         'mortgage-payoff': 'mortgage',
         'rent': 'salary',
-        'marriage-tax': 'salary',
-        'estate-tax': 'salary',
         'pension': 'savings',
-        'social-security': 'savings',
         'cash-back': 'roi',
         'depreciation': 'savings',
         'budget': 'salary',

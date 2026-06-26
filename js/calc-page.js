@@ -108,6 +108,7 @@
             fitness: window.uwuEngineFitness,
             math: window.uwuEngineMath,
             other: window.uwuEngineOther,
+            usa: window.uwuEngineUSA,
         };
         const engine = engineMap[calc.engine];
         if (!engine || typeof engine.render !== 'function') {

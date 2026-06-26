@@ -525,55 +525,6 @@ window.uwuEngineFitness = (() => {
         };
     }
 
-    // ── Army Body Fat ─────────────────────────────────────────────────────────
-
-    function renderArmyBodyFat(container) {
-        container.innerHTML = `
-      ${select('abf-sex','Sex',[{v:'male',l:'Male'},{v:'female',l:'Female'}])}
-      ${field('abf-height','Height (cm)','number','175')}
-      ${field('abf-neck','Neck (cm)','number','38')}
-      ${field('abf-waist','Waist (cm)','number','85')}
-      <div id="abf-hip-wrap">${field('abf-hip','Hip (cm, females only)','number','95')}</div>
-      ${btn()}
-      <div id="abf-result"></div>`;
-
-        document.getElementById('abf-sex').addEventListener('change', e => {
-            document.getElementById('abf-hip-wrap').style.display = e.target.value === 'female' ? '' : 'none';
-        });
-        document.getElementById('abf-hip-wrap').style.display = 'none';
-
-        window._calcRun = () => {
-            const sex = document.getElementById('abf-sex').value;
-            const h = parseFloat(document.getElementById('abf-height').value);
-            const neck = parseFloat(document.getElementById('abf-neck').value);
-            const waist = parseFloat(document.getElementById('abf-waist').value);
-            if (!h || !neck || !waist) {
-                document.getElementById('abf-result').innerHTML = err('Enter all measurements.');
-                return;
-            }
-            let bf;
-            if (sex === 'male') {
-                bf = 86.01 * Math.log10(waist - neck) - 70.041 * Math.log10(h) + 36.76;
-            } else {
-                const hip = parseFloat(document.getElementById('abf-hip').value);
-                bf = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(h) - 78.387;
-            }
-            const limit = sex === 'male' ? 22 : 32;
-            document.getElementById('abf-result').innerHTML = result(
-                row('Body Fat %', `${fmt(bf,1)}%`) +
-                row('Army Standard', `${limit}% max`) +
-                row('Status', bf <= limit ? 'Passes Army standard' : 'Fails Army standard')
-            );
-            uwuHistory.add('army-body-fat', {
-                bf: fmt(bf, 1)
-            });
-        };
-        window._calcReset = () => {
-            container.querySelectorAll('input').forEach(i => i.value = '');
-            document.getElementById('abf-result').innerHTML = '';
-        };
-    }
-
     // ── Body Surface Area ─────────────────────────────────────────────────────
 
     function renderBSA(container) {
@@ -1557,7 +1508,6 @@ window.uwuEngineFitness = (() => {
         'healthy-weight-calculator': renderHealthyWeight,
         'overweight-calculator': renderOverweight,
         'anorexic-bmi-calculator': renderAnorexicBMI,
-        'army-body-fat-calculator': renderArmyBodyFat,
         'body-surface-area-calculator': renderBSA,
         'body-type-calculator': renderBodyType,
         'target-heart-rate-calculator': renderTargetHeartRate,
