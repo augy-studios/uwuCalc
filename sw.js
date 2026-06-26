@@ -1,12 +1,22 @@
-const CACHE_NAME = 'uwucalc-v14';
+const CACHE_NAME = 'uwucalc-v15';
 const STATIC_ASSETS = [
   '/',
   '/css/global.css',
+  '/js/registry.js',
   '/js/theme.js',
   '/js/script.js',
   '/js/search.js',
   '/js/history.js',
   '/js/favourites.js',
+  '/js/home.js',
+  '/js/calc-page.js',
+  '/js/basic-calculator.js',
+  '/engines/financial.js',
+  '/engines/fitness.js',
+  '/engines/math.js',
+  '/engines/other.js',
+  '/engines/usa.js',
+  '/engines/sg.js',
   '/manifest.json',
   '/UWC-main.png',
   '/UWC-192.png',

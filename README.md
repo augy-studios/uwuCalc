@@ -6,21 +6,23 @@ A collection of **213 calculators** built as a fast, offline-capable Progressive
 
 - **213 calculators** across 6 categories, all running client-side with no server round-trips
 - **Progressive Web App** — install to your home screen and use offline
-- **Favourites** — star any calculator to pin it for quick access (persisted in localStorage)
-- **Calculation history** — each calculator keeps a timestamped log of past calculations
-- **Search** — instant fuzzy search across all calculators
+- **Favourites** — star any calculator to pin it for quick access; favourites appear in the sidebar and as a dedicated category tab (persisted in localStorage)
+- **Calculation history** — each calculator keeps a timestamped log of past calculations with full input variables; click any history entry to restore all fields
+- **Search** — instant fuzzy search across all calculators; supports `?q=` URL parameter for direct linking
+- **Keyboard shortcuts** — `Ctrl+K` to focus the search bar from anywhere; `Enter` in any calculator form field triggers the Calculate button
 - **7 colour themes** — Classic (Minty Green), Rosy Pink, Soft Lavender, Pale Yellow, Lilac Blush, Sky Aqua, and Pure White
-- **Responsive** — works on desktop, tablet, and mobile
+- **Responsive** — works on desktop, tablet, and mobile; scientific calculator maintains 5-column layout on all screen sizes
 - **Basic / Scientific calculator** on the home page, always accessible
+- **Alphabetical sorting** — all calculator lists (category tabs, sidebar sections) are sorted alphabetically
 
 ## Quick start
 
 Visit the home page and either:
 
 1. Use the **Basic / Scientific calculator** directly on the landing page
-2. Browse the **Discover Calculators** grid — filter by category using the pills
-3. **Search** by name or description using the search bar
-4. Navigate the **sidebar** — categories are collapsed by default and auto-expand when you're on a calculator in that category
+2. Browse the **Discover Calculators** grid — filter by category using the pills (all lists sorted alphabetically)
+3. **Search** by name or description using the search bar (or press `Ctrl+K`)
+4. Navigate the **sidebar** — categories are collapsed by default and auto-expand when you're on a calculator in that category; favourites section appears at the top
 
 Every calculator page is available at `/{id}` (e.g. `/mortgage`, `/bmi`, `/cpf`).
 
@@ -157,7 +159,7 @@ uwuCalc/
     favourites.js         Star/unstar calculators (localStorage)
     history.js            Per-calculator history log (localStorage)
     theme.js              7-theme colour switcher
-    script.js             Shared utilities, sidebar toggle, SW registration
+    script.js             Shared utilities, sidebar toggle, keyboard shortcuts, SW registration
     basic-calculator.js   Basic/scientific calculator widget
   engines/
     financial.js          63 financial calculators
