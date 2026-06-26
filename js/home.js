@@ -5,21 +5,25 @@ const CATEGORY_ICONS = {
     'Fitness & Health': `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
     'Math': `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`,
     'Other': `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+    'US-Centric': `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="16" x2="22" y2="16"/><rect x="2" y="4" width="10" height="8" fill="currentColor" opacity="0.15"/></svg>`,
+    'Singapore': `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4a8 8 0 0 0 0 16 6 6 0 0 1 0-16z"/><polygon points="18 8 19 11 22 11 19.5 13 20.5 16 18 14 15.5 16 16.5 13 14 11 17 11" fill="currentColor" stroke="none"/></svg>`,
 };
 
 // ============ SIDEBAR BUILDER ============
 function buildSidebar() {
     const container = document.getElementById('sidebarContent');
     if (!container) return;
+    const currentPath = window.location.pathname;
+    const isHome = currentPath === '/' || currentPath === '';
     let html = `
-    <div class="sidebar-section">
+    <div class="sidebar-section${isHome ? '' : ' collapsed'}">
       <div class="sidebar-section-header">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
         Home
         <svg class="section-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="sidebar-section-items">
-        <a href="/" class="sidebar-item active">
+        <a href="/" class="sidebar-item${isHome ? ' active' : ''}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
           Basic / Scientific
         </a>
@@ -28,8 +32,9 @@ function buildSidebar() {
   `;
     CATEGORIES.forEach(cat => {
         const calcs = getCalcsByCategory(cat);
+        const hasActive = calcs.some(c => currentPath === `/calc/${c.slug}`);
         html += `
-      <div class="sidebar-section">
+      <div class="sidebar-section${hasActive ? '' : ' collapsed'}">
         <div class="sidebar-section-header">
           ${CATEGORY_ICONS[cat] || ''}
           ${cat}
@@ -37,7 +42,7 @@ function buildSidebar() {
         </div>
         <div class="sidebar-section-items">
           ${calcs.map(c => `
-            <a href="/calc/${c.slug}" class="sidebar-item">
+            <a href="/calc/${c.slug}" class="sidebar-item${currentPath === '/calc/' + c.slug ? ' active' : ''}">
               <span style="width:14px;height:14px;display:inline-block;"></span>
               ${c.name}
               <button class="sidebar-fav-star" data-calc-id="${c.id}" aria-label="Toggle favourite">
