@@ -1720,13 +1720,13 @@ svg {
 .calc-field input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
-    left: 4px;
-    top: 1px;
-    width: 5px;
-    height: 9px;
+    left: 50%;
+    top: 45%;
+    width: 6px;
+    height: 10px;
     border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    border-width: 0 2.5px 2.5px 0;
+    transform: translate(-50%, -55%) rotate(45deg);
 }
 
 .calc-field input[type="checkbox"]:focus-visible {
