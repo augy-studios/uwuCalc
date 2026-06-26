@@ -1447,10 +1447,21 @@ svg {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 10px 0;
+    padding: 10px 8px;
+    margin: 0 -8px;
     border-bottom: 1px solid var(--border);
     font-size: 0.85rem;
     gap: 12px;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition);
+}
+
+.history-item.clickable {
+    cursor: pointer;
+}
+
+.history-item.clickable:hover {
+    background: var(--glass);
 }
 
 .history-item:last-child {
