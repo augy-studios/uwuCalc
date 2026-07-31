@@ -19,12 +19,12 @@
         page.innerHTML = `
       <div style="text-align:center;padding:60px 20px;">
         <svg width="64" height="64" viewBox="0 0 24 24" style="margin:0 auto 16px;display:block;">
-          <circle cx="12" cy="12" r="10" fill="#e0e0e0" stroke="none"/>
-          <line x1="12" y1="7" x2="12" y2="13" stroke="#e53e3e" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="12" cy="16.5" r="1.2" fill="#e53e3e"/>
+          <circle cx="12" cy="12" r="10" fill="var(--surface-strong)" stroke="var(--surface-border)"/>
+          <line x1="12" y1="7" x2="12" y2="13" stroke="var(--error)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="12" cy="16.5" r="1.2" fill="var(--error)"/>
         </svg>
-        <h1 style="font-size:1.5rem;margin-bottom:8px;color:var(--text-primary);">Calculator Not Found</h1>
-        <p style="color:var(--text-muted);margin-bottom:24px;">We couldn't find a calculator for <strong>${slug}</strong>.</p>
+        <h1 style="font-size:1.5rem;margin-bottom:8px;color:var(--ink);">Calculator Not Found</h1>
+        <p style="color:var(--muted);margin-bottom:24px;">We couldn't find a calculator for <strong>${slug}</strong>.</p>
         <a href="/" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
           Back to Home
@@ -76,7 +76,7 @@
       </div>
 
       <div class="calc-engine-container" id="calcEngineContainer">
-        <div style="text-align:center;padding:40px;color:var(--text-muted);">Loading calculator...</div>
+        <div style="text-align:center;padding:40px;color:var(--muted);">Loading calculator...</div>
       </div>
     `;
 
@@ -115,7 +115,7 @@
         };
         const engine = engineMap[calc.engine];
         if (!engine || typeof engine.render !== 'function') {
-            container.innerHTML = `<p style="color:var(--text-muted);text-align:center;padding:20px;">Engine not yet implemented for this calculator.</p>`;
+            container.innerHTML = `<p style="color:var(--muted);text-align:center;padding:20px;">Engine not yet implemented for this calculator.</p>`;
             return;
         }
         engine.render(calc, container);

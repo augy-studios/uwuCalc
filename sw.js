@@ -1,9 +1,12 @@
-const CACHE_NAME = 'uwucalc-v17';
+const CACHE_NAME = 'uwucalc-v19';
 const STATIC_ASSETS = [
   '/',
   '/css/global.css',
   '/js/registry.js',
+  '/js/icons.js',
+  '/js/ui.js',
   '/js/theme.js',
+  '/js/copy.js',
   '/js/script.js',
   '/js/search.js',
   '/js/history.js',

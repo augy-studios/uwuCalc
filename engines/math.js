@@ -57,7 +57,7 @@ window.uwuEngineMath = (() => {
     // (These are rendered on the home page; calc page shows a simplified version)
 
     function renderScientific(container) {
-        container.innerHTML = `<p style="margin-bottom:12px;font-size:14px;opacity:0.8">Use the full Scientific Calculator on the <a href="/" style="color:var(--brand)">home page</a> for the best experience. Quick evaluator below:</p>
+        container.innerHTML = `<p style="margin-bottom:12px;font-size:14px;opacity:0.8">Use the full Scientific Calculator on the <a href="/" style="color:var(--brand-ink)">home page</a> for the best experience. Quick evaluator below:</p>
       ${field('sci-expr','Expression (e.g. sin(30)*2+log(100))','text','sqrt(144)+sin(45)*2')}
       ${btn()}
       <div id="sci-result"></div>`;

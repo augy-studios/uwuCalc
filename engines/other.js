@@ -239,9 +239,9 @@ window.uwuEngineOther = (() => {
         container.innerHTML = `
       <p style="font-size:14px;opacity:0.8;margin-bottom:12px">Enter up to 5 days of start/end times.</p>
       <div id="hours-entries">${[...Array(5)].map((_,i)=>`<div style="display:flex;gap:8px;margin-bottom:6px">
-        <input type="time" id="hours-s${i}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <input type="time" id="hours-s${i}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
         <span style="line-height:36px">–</span>
-        <input type="time" id="hours-e${i}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <input type="time" id="hours-e${i}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
       </div>`).join('')}</div>
       ${field('hours-rate','Hourly rate (optional, $)','number','')}
       ${btn()}<div id="hours-result"></div>`;
@@ -512,10 +512,10 @@ window.uwuEngineOther = (() => {
     function renderGPA(container) {
         container.innerHTML = `
       <div id="gpa-rows">${[...Array(5)].map((_,i)=>`<div style="display:flex;gap:8px;margin-bottom:6px">
-        <select id="gpa-g${i}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <select id="gpa-g${i}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
           <option value="4.0">A</option><option value="3.7">A-</option><option value="3.3">B+</option><option value="3.0">B</option><option value="2.7">B-</option><option value="2.3">C+</option><option value="2.0">C</option><option value="1.0">D</option><option value="0.0">F</option>
         </select>
-        <input type="number" id="gpa-c${i}" placeholder="Credits" value="${i<3?3:''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <input type="number" id="gpa-c${i}" placeholder="Credits" value="${i<3?3:''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
       </div>`).join('')}</div>
       ${btn('Calculate GPA')}<div id="gpa-result"></div>`;
         window._calcRun = () => {
@@ -1274,7 +1274,7 @@ window.uwuEngineOther = (() => {
             crypto.getRandomValues(arr);
             const pw = Array.from(arr).map(b => chars[b % chars.length]).join('');
             const entropy = Math.log2(Math.pow(chars.length, len));
-            document.getElementById('pw-result').innerHTML = result(`<div style="font-family:monospace;font-size:16px;word-break:break-all;padding:8px;background:var(--glass-bg);border-radius:6px;margin-bottom:8px">${pw}</div>` + row('Entropy', `${fmt(entropy,1)} bits`) + row('Strength', entropy < 40 ? 'Weak' : entropy < 60 ? 'Good' : entropy < 80 ? 'Strong' : 'Very strong'));
+            document.getElementById('pw-result').innerHTML = result(`<div style="font-family:monospace;font-size:16px;word-break:break-all;padding:8px;background:var(--surface-strong);border-radius:6px;margin-bottom:8px">${pw}</div>` + row('Entropy', `${fmt(entropy,1)} bits`) + row('Strength', entropy < 40 ? 'Weak' : entropy < 60 ? 'Good' : entropy < 80 ? 'Strong' : 'Very strong'));
             uwuHistory.add('password', {
                 length: len,
                 entropy: fmt(entropy, 1)
@@ -1415,7 +1415,7 @@ window.uwuEngineOther = (() => {
 
     // ── Base64 ────────────────────────────────────────────────────────────────
     function renderBase64(container) {
-        container.innerHTML = `${select('b64-op','Operation',[{v:'enc',l:'Encode (text → Base64)'},{v:'dec',l:'Decode (Base64 → text)'}])}<div class="calc-field"><label>Input</label><textarea id="b64-input" rows="4" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text);font-family:monospace;resize:vertical"></textarea></div>${btn()}<div id="b64-result"></div>`;
+        container.innerHTML = `${select('b64-op','Operation',[{v:'enc',l:'Encode (text → Base64)'},{v:'dec',l:'Decode (Base64 → text)'}])}<div class="calc-field"><label>Input</label><textarea id="b64-input" rows="4" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink);font-family:monospace;resize:vertical"></textarea></div>${btn()}<div id="b64-result"></div>`;
         window._calcRun = () => {
             const op = document.getElementById('b64-op').value,
                 input = document.getElementById('b64-input').value;
@@ -1425,7 +1425,7 @@ window.uwuEngineOther = (() => {
             }
             try {
                 const out = op === 'enc' ? btoa(unescape(encodeURIComponent(input))) : decodeURIComponent(escape(atob(input)));
-                document.getElementById('b64-result').innerHTML = `<div class="calc-result"><div class="result-row"><span class="result-label">Output</span></div><textarea rows="4" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text);font-family:monospace;resize:vertical" readonly>${out}</textarea></div>`;
+                document.getElementById('b64-result').innerHTML = `<div class="calc-result"><div class="result-row"><span class="result-label">Output</span></div><textarea rows="4" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink);font-family:monospace;resize:vertical" readonly>${out}</textarea></div>`;
                 uwuHistory.add('base64', {
                     op
                 });
@@ -1441,7 +1441,7 @@ window.uwuEngineOther = (() => {
 
     // ── URL Encode/Decode ─────────────────────────────────────────────────────
     function renderURLEncode(container) {
-        container.innerHTML = `${select('url-op','Operation',[{v:'enc',l:'Encode URL'},{v:'dec',l:'Decode URL'}])}<div class="calc-field"><label>Input</label><textarea id="url-input" rows="3" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text);font-family:monospace;resize:vertical"></textarea></div>${btn()}<div id="url-result"></div>`;
+        container.innerHTML = `${select('url-op','Operation',[{v:'enc',l:'Encode URL'},{v:'dec',l:'Decode URL'}])}<div class="calc-field"><label>Input</label><textarea id="url-input" rows="3" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink);font-family:monospace;resize:vertical"></textarea></div>${btn()}<div id="url-result"></div>`;
         window._calcRun = () => {
             const op = document.getElementById('url-op').value,
                 input = document.getElementById('url-input').value;
@@ -1450,7 +1450,7 @@ window.uwuEngineOther = (() => {
                 return;
             }
             const out = op === 'enc' ? encodeURIComponent(input) : decodeURIComponent(input);
-            document.getElementById('url-result').innerHTML = `<div class="calc-result"><div class="result-row"><span class="result-label">Output</span></div><textarea rows="3" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text);font-family:monospace;resize:vertical" readonly>${out}</textarea></div>`;
+            document.getElementById('url-result').innerHTML = `<div class="calc-result"><div class="result-row"><span class="result-label">Output</span></div><textarea rows="3" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink);font-family:monospace;resize:vertical" readonly>${out}</textarea></div>`;
             uwuHistory.add('url-encode', {
                 op
             });
@@ -1487,9 +1487,9 @@ window.uwuEngineOther = (() => {
         container.innerHTML = `
       <p style="font-size:14px;opacity:0.8;margin-bottom:12px">Enter assignments with weight (%) and score (%).</p>
       <div id="grade-rows">${[...Array(6)].map((_,i)=>`<div style="display:flex;gap:8px;margin-bottom:6px">
-        <input type="text" id="grade-n${i}" placeholder="Assignment ${i+1}" style="flex:2;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
-        <input type="number" id="grade-w${i}" placeholder="Weight %" value="${i<3?'30':''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
-        <input type="number" id="grade-s${i}" placeholder="Score %" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <input type="text" id="grade-n${i}" placeholder="Assignment ${i+1}" style="flex:2;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
+        <input type="number" id="grade-w${i}" placeholder="Weight %" value="${i<3?'30':''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
+        <input type="number" id="grade-s${i}" placeholder="Score %" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
       </div>`).join('')}</div>
       ${btn('Calculate Grade')}<div id="grade-result"></div>`;
         window._calcRun = () => {
@@ -1617,9 +1617,9 @@ window.uwuEngineOther = (() => {
         container.innerHTML = `
       <p style="font-size:14px;opacity:0.8;margin-bottom:12px">Enter up to 8 recent rounds (score, course rating, slope).</p>
       <div id="golf-rows">${[...Array(8)].map((_,i)=>`<div style="display:flex;gap:8px;margin-bottom:6px">
-        <input type="number" id="golf-s${i}" placeholder="Score" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
-        <input type="number" id="golf-r${i}" placeholder="Rating" value="${i<3?'72':''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
-        <input type="number" id="golf-sl${i}" placeholder="Slope" value="${i<3?'113':''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text)">
+        <input type="number" id="golf-s${i}" placeholder="Score" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
+        <input type="number" id="golf-r${i}" placeholder="Rating" value="${i<3?'72':''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
+        <input type="number" id="golf-sl${i}" placeholder="Slope" value="${i<3?'113':''}" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--surface-border);background:var(--surface-strong);color:var(--ink)">
       </div>`).join('')}</div>
       ${btn('Calculate Handicap')}<div id="golf-result"></div>`;
         window._calcRun = () => {

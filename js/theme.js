@@ -1,120 +1,195 @@
-// js/theme.js - Theme management
+// js/theme.js - Theme system: 7 brand colour swatches + light/dark mode.
+// Default is always light + classic (#ccffcc), regardless of OS preference.
+// Once the user picks something, it is persisted.
 (function () {
-    const THEMES = [{
+    const APP_KEY = 'uwucalc';
+
+    const COLOR_THEMES = [{
             id: 'classic',
-            name: 'Classic',
-            color: '#ccffcc',
-            label: 'Minty Green'
+            label: 'Classic',
+            hex: '#ccffcc'
         },
         {
-            id: 'ng1',
-            name: 'Not green 1',
-            color: '#ffcccc',
-            label: 'Rosy Pink'
+            id: 'not-green-1',
+            label: 'Not green 1',
+            hex: '#ffcccc'
         },
         {
-            id: 'ng2',
-            name: 'Not green 2',
-            color: '#ccccff',
-            label: 'Soft Lavender'
+            id: 'not-green-2',
+            label: 'Not green 2',
+            hex: '#ccccff'
         },
         {
-            id: 'ng3',
-            name: 'Not green 3',
-            color: '#ffffcc',
-            label: 'Pale Yellow'
+            id: 'not-green-3',
+            label: 'Not green 3',
+            hex: '#ffffcc'
         },
         {
-            id: 'ng4',
-            name: 'Not green 4',
-            color: '#ffccff',
-            label: 'Lilac Blush'
+            id: 'not-green-4',
+            label: 'Not green 4',
+            hex: '#ffccff'
         },
         {
-            id: 'ng5',
-            name: 'Not green 5',
-            color: '#ccffff',
-            label: 'Sky Aqua'
+            id: 'not-green-5',
+            label: 'Not green 5',
+            hex: '#ccffff'
         },
         {
-            id: 'white',
-            name: 'Really really light green',
-            color: '#ffffff',
-            label: 'Pure White'
+            id: 'really-light-green',
+            label: 'Really really light green',
+            hex: '#ffffff'
         },
     ];
 
-    const STORAGE_KEY = 'uwucalc_theme';
+    const STORAGE_KEY_COLOR = APP_KEY + '.colorTheme';
+    const STORAGE_KEY_MODE = APP_KEY + '.mode';
 
-    function applyTheme(id) {
-        const theme = THEMES.find(t => t.id === id) || THEMES[0];
-        document.documentElement.setAttribute('data-theme', theme.id === 'classic' ? '' : theme.id);
-        localStorage.setItem(STORAGE_KEY, theme.id);
-        updateThemeUI(theme.id);
+    // Pre-mode-axis key. Ids map 1:1 onto the new ones.
+    const LEGACY_KEY = 'uwucalc_theme';
+    const LEGACY_IDS = {
+        classic: 'classic',
+        ng1: 'not-green-1',
+        ng2: 'not-green-2',
+        ng3: 'not-green-3',
+        ng4: 'not-green-4',
+        ng5: 'not-green-5',
+        white: 'really-light-green'
+    };
+
+    function migrateLegacyTheme() {
+        try {
+            if (localStorage.getItem(STORAGE_KEY_COLOR)) return;
+            const old = localStorage.getItem(LEGACY_KEY);
+            if (!old) return;
+            if (LEGACY_IDS[old]) localStorage.setItem(STORAGE_KEY_COLOR, LEGACY_IDS[old]);
+            localStorage.removeItem(LEGACY_KEY);
+        } catch (e) {
+            // Storage unavailable; fall back to the default.
+        }
     }
 
-    function updateThemeUI(id) {
-        document.querySelectorAll('.theme-option').forEach(el => {
-            el.classList.toggle('selected', el.dataset.themeId === id);
-        });
+    function hexToRgb(hex) {
+        const n = parseInt(hex.replace('#', ''), 16);
+        return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
     }
 
-    function getSavedTheme() {
-        return localStorage.getItem(STORAGE_KEY) || 'classic';
+    function getStoredColorTheme() {
+        return localStorage.getItem(STORAGE_KEY_COLOR) || 'classic';
     }
 
-    function buildThemeModal() {
-        const overlay = document.getElementById('themeModal');
-        if (!overlay) return;
-        const grid = overlay.querySelector('.theme-grid');
-        if (!grid) return;
-        grid.innerHTML = '';
-        const current = getSavedTheme();
-        THEMES.forEach(theme => {
-            const opt = document.createElement('button');
-            opt.className = 'theme-option' + (theme.id === current ? ' selected' : '');
-            opt.dataset.themeId = theme.id;
-            opt.setAttribute('aria-label', `Switch to ${theme.name} theme`);
-            opt.innerHTML = `
-        <span class="theme-swatch" style="background:${theme.color};"></span>
-        <span class="theme-name">${theme.name}</span>
-      `;
-            opt.addEventListener('click', () => {
-                applyTheme(theme.id);
-                showToast('Theme updated');
-            });
-            grid.appendChild(opt);
-        });
+    function getStoredMode() {
+        return localStorage.getItem(STORAGE_KEY_MODE) || 'light';
+    }
+
+    function applyColorTheme(id) {
+        const theme = COLOR_THEMES.find((t) => t.id === id) || COLOR_THEMES[0];
+        document.documentElement.setAttribute('data-color-theme', theme.id);
+        document.documentElement.style.setProperty('--brand', theme.hex);
+        document.documentElement.style.setProperty('--brand-rgb', hexToRgb(theme.hex));
+        localStorage.setItem(STORAGE_KEY_COLOR, theme.id);
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme.hex);
+        return theme;
+    }
+
+    function applyMode(mode) {
+        const resolved = mode === 'dark' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-mode', resolved);
+        localStorage.setItem(STORAGE_KEY_MODE, resolved);
+        return resolved;
     }
 
     function initTheme() {
-        applyTheme(getSavedTheme());
+        migrateLegacyTheme();
+        applyColorTheme(getStoredColorTheme());
+        applyMode(getStoredMode());
+    }
 
-        const themeBtn = document.getElementById('themeBtn');
-        const themeModal = document.getElementById('themeModal');
-        const themeModalClose = document.getElementById('themeModalClose');
+    // ---- modal wiring ----
 
-        if (themeBtn && themeModal) {
-            themeBtn.addEventListener('click', () => {
-                buildThemeModal();
-                themeModal.classList.add('open');
-            });
-        }
+    function buildThemeModal() {
+        const grid = document.getElementById('swatchGrid');
+        if (!grid) return;
+        grid.innerHTML = COLOR_THEMES.map(
+            (t) => `
+      <button class="swatch" data-theme-id="${t.id}" style="--swatch-color:${t.hex}" type="button" aria-label="${t.label}">
+        <span class="swatch-dot"></span>
+        <span class="swatch-label">${t.label}</span>
+      </button>`
+        ).join('');
 
-        if (themeModalClose) {
-            themeModalClose.addEventListener('click', () => themeModal.classList.remove('open'));
-        }
+        syncThemeModalState();
 
-        if (themeModal) {
-            themeModal.addEventListener('click', (e) => {
-                if (e.target === themeModal) themeModal.classList.remove('open');
+        grid.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-theme-id]');
+            if (!btn) return;
+            applyColorTheme(btn.dataset.themeId);
+            syncThemeModalState();
+            if (typeof showToast === 'function') showToast('Theme updated');
+        });
+
+        const toggle = document.getElementById('modeToggle');
+        if (toggle) {
+            toggle.addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-mode]');
+                if (!btn) return;
+                applyMode(btn.dataset.mode);
+                syncThemeModalState();
+                if (typeof showToast === 'function') showToast('Theme updated');
             });
         }
     }
 
+    function syncThemeModalState() {
+        const activeTheme = getStoredColorTheme();
+        const activeMode = getStoredMode();
+        document.querySelectorAll('#swatchGrid .swatch').forEach((el) => {
+            el.classList.toggle('active', el.dataset.themeId === activeTheme);
+        });
+        document.querySelectorAll('#modeToggle .mode-btn').forEach((el) => {
+            const on = el.dataset.mode === activeMode;
+            el.classList.toggle('active', on);
+            el.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        updateThemeButtonIcon();
+    }
+
+    function updateThemeButtonIcon() {
+        const btn = document.getElementById('themeBtn');
+        if (!btn) return;
+        const span = btn.querySelector('[data-icon]');
+        if (!span) return;
+        span.setAttribute('data-icon', getStoredMode() === 'dark' ? 'moon' : 'sun');
+        if (window.uwuUI) uwuUI.hydrateIcons(btn);
+    }
+
+    function wireModals() {
+        document.querySelectorAll('[data-close-modal]').forEach((btn) => {
+            btn.addEventListener('click', () => uwuUI.closeModal(btn.dataset.closeModal));
+        });
+        document.querySelectorAll('.modal-backdrop').forEach((backdrop) => {
+            backdrop.addEventListener('click', (e) => {
+                if (e.target === backdrop) uwuUI.closeModal(backdrop.id);
+            });
+        });
+        const themeBtn = document.getElementById('themeBtn');
+        if (themeBtn) themeBtn.addEventListener('click', () => uwuUI.openModal('themeModal'));
+    }
+
+    function boot() {
+        initTheme();
+        if (window.uwuUI) uwuUI.hydrateIcons();
+        updateThemeButtonIcon();
+        buildThemeModal();
+        wireModals();
+    }
+
     window.uwuTheme = {
-        init: initTheme,
-        apply: applyTheme,
-        getSaved: getSavedTheme
+        init: boot,
+        apply: applyColorTheme,
+        applyMode: applyMode,
+        getSaved: getStoredColorTheme,
+        getSavedMode: getStoredMode,
+        THEMES: COLOR_THEMES
     };
 })();
