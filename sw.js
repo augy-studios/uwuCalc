@@ -1,4 +1,8 @@
-const CACHE_NAME = 'uwucalc-v20';
+// Bump on every deploy that changes anything this worker serves. The browser
+// only sees an update when this file changes byte for byte, so a version left
+// alone is an update prompt nobody ever sees.
+const VERSION = 'v21';
+const CACHE_NAME = `uwucalc-${VERSION}`;
 const STATIC_ASSETS = [
   '/',
   '/css/global.css',
@@ -6,6 +10,7 @@ const STATIC_ASSETS = [
   '/js/icons.js',
   '/js/ui.js',
   '/js/theme.js',
+  '/js/update-bar.js',
   '/js/copy.js',
   '/js/script.js',
   '/js/search.js',
@@ -259,7 +264,8 @@ self.addEventListener('install', (event) => {
         });
     })
   );
-  self.skipWaiting();
+  // No skipWaiting() here. A new worker installs and then waits until
+  // somebody presses Reload in the update bar (js/update-bar.js).
 });
 
 self.addEventListener('activate', (event) => {
@@ -272,7 +278,17 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
-  self.clients.claim();
+  // No clients.claim() here either: claiming on activation would do silently
+  // what the update bar exists to ask about.
+});
+
+self.addEventListener('message', (event) => {
+  const type = typeof event.data === 'string' ? event.data : event.data?.type;
+
+  // The only place either of these is ever called.
+  if (type === 'skip-waiting') {
+    event.waitUntil(self.skipWaiting().then(() => self.clients.claim()));
+  }
 });
 
 self.addEventListener('fetch', (event) => {
@@ -280,7 +296,9 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET' || event.request.url.startsWith('chrome-extension')) return;
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
+    // Only this worker's own cache. A newer worker waiting to be accepted has
+    // its own, and the old one must keep serving the old version until then.
+    caches.match(event.request, { cacheName: CACHE_NAME }).then((cachedResponse) => {
       if (cachedResponse) return cachedResponse;
 
       return fetch(event.request.clone())
@@ -294,8 +312,8 @@ self.addEventListener('fetch', (event) => {
         })
         .catch(() => {
           // Offline fallback
-          if (event.request.headers.get('accept').includes('text/html')) {
-            return caches.match('/');
+          if ((event.request.headers.get('accept') || '').includes('text/html')) {
+            return caches.match('/', { cacheName: CACHE_NAME });
           }
         });
     })

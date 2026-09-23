@@ -1,4 +1,4 @@
-// js/script.js - Shared utilities: toast, sidebar, SW registration
+// js/script.js - Shared utilities: toast, sidebar (SW registration lives in update-bar.js)
 
 // ============ TOAST ============
 function showToast(message, duration = 3000) {
@@ -58,15 +58,6 @@ function initSidebar() {
     });
 }
 
-// ============ SERVICE WORKER ============
-function registerSW() {
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').catch(() => {});
-        });
-    }
-}
-
 // ============ ENTER KEY → CALCULATE ============
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target.matches('.calc-field input, .calc-field select, .calc-engine-container input, .calc-engine-container select, .form-input, .form-select')) {
@@ -88,7 +79,6 @@ document.addEventListener('keydown', (e) => {
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
-    registerSW();
     if (window.uwuTheme) uwuTheme.init();
     if (window.uwuSearch) uwuSearch.init();
     initSidebar();

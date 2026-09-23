@@ -153,6 +153,8 @@ button:disabled {
 
     --sidebar-width: 280px;
     --header-height: 64px;
+    /* Set by js/update-bar.js while the update bar is showing. */
+    --update-notice-height: 0px;
 }
 
 /* flat, static colour derived from theme, no gradients */
@@ -334,7 +336,8 @@ body.modal-open {
    MODE TOGGLE
    ============================================ */
 .mode-toggle {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 6px;
     padding: 4px;
     border-radius: 14px;
@@ -342,7 +345,6 @@ body.modal-open {
 }
 
 .mode-btn {
-    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -362,6 +364,20 @@ body.modal-open {
 .mode-btn.active {
     background: var(--brand-fill);
     color: var(--on-brand);
+}
+
+/* Light and dark stay side by side and the third spans the row beneath them:
+   two equal columns would put the longer label in a box too narrow to read at
+   320px, and the full width row also signals this is a different kind of
+   choice, a rule for picking a mode rather than a mode. */
+.mode-btn-wide {
+    grid-column: 1 / -1;
+}
+
+.mode-note {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
 }
 
 /* ============================================
@@ -418,7 +434,7 @@ body.modal-open {
 .main-container {
     display: flex;
     flex: 1;
-    padding-top: var(--header-height);
+    padding-top: calc(var(--header-height) + var(--update-notice-height));
 }
 
 /* ============================================
@@ -426,7 +442,7 @@ body.modal-open {
    ============================================ */
 .header {
     position: fixed;
-    top: 0;
+    top: var(--update-notice-height);
     left: 0;
     right: 0;
     height: var(--header-height);
@@ -616,10 +632,10 @@ body.modal-open {
    ============================================ */
 .sidebar {
     position: fixed;
-    top: var(--header-height);
+    top: calc(var(--header-height) + var(--update-notice-height));
     left: 0;
     width: var(--sidebar-width);
-    height: calc(100vh - var(--header-height));
+    height: calc(100vh - var(--header-height) - var(--update-notice-height));
     background: var(--surface-strong);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -732,7 +748,7 @@ body.modal-open {
 
 .calc-widget {
     position: sticky;
-    top: calc(var(--header-height) + 20px);
+    top: calc(var(--header-height) + var(--update-notice-height) + 20px);
     background: var(--surface);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -1608,6 +1624,76 @@ body.modal-open {
     to {
         opacity: 0;
         transform: translateX(20px);
+    }
+}
+
+/* ============================================
+   UPDATE BAR (js/update-bar.js)
+   ============================================ */
+/* Fixed above the fixed header, which moves down by --update-notice-height.
+   Quieter than the header (no glass, no shadow) but tinted enough to read as a
+   notice. The tint is under half brand, so text stays on --ink in both modes. */
+.update-notice {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 150;
+    background: color-mix(in srgb, var(--brand) 35%, var(--bg));
+    border-bottom: 1px solid var(--surface-border);
+    color: var(--ink);
+    font-size: 0.875rem;
+    animation: updateNoticeIn 0.2s ease forwards;
+}
+
+.update-notice.leaving {
+    animation: updateNoticeOut 0.18s ease forwards;
+}
+
+.update-notice-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    /* Under the notch on a phone, where the bar is the topmost thing on screen. */
+    padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+.update-notice p {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.update-notice .btn-primary,
+.update-notice .btn-secondary {
+    flex: none;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+}
+
+@keyframes updateNoticeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes updateNoticeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-100%);
     }
 }
 
